@@ -1,8 +1,14 @@
 Screenshots
 
-<img src="markdownmonstericon.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
+<img src="page_1.png"
+     alt="Singup"
+     style="width:30%" />
+<img src="page_2.png"
+      alt="About me"
+    style="width:30%" />
+<img src="page_3.png"
+    alt="Successful"
+    style="width:30%" />
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
