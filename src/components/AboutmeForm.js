@@ -25,7 +25,7 @@ const createRenderer = render => ({ input, meta, label, ...rest }) => (
       meta.active ? "active" : ""
     ].join(" ")}
   >
-    <label>{label}</label>
+    <label className="name_field">{label}</label>
     {render(input, label, rest)}
     {meta.error && meta.touched && <span>{meta.error}</span>}
   </div>
