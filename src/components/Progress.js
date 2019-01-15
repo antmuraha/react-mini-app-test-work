@@ -12,6 +12,7 @@ const styles = {
 class LinearDeterminate extends React.Component {
   constructor(props) {
     super(props);
+    //alert(this.props.page);
     this.state = {
       completed: this.calc()
     };
@@ -27,7 +28,7 @@ class LinearDeterminate extends React.Component {
       <LinearProgress
         className={classes.root}
         variant="determinate"
-        value={this.state.completed}
+        value={this.calc()}
       />
     );
   }
