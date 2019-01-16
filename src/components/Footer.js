@@ -40,7 +40,7 @@ class Footer extends React.Component<Props> {
     }
   }
   render() {
-    let buttonHidden = { opacity: 0, "pointer-events": "none" };
+    let buttonHidden = { opacity: 0, "pointerEvents": "none" };
 
     console.log("Render Footer");
     const { classes } = this.props;

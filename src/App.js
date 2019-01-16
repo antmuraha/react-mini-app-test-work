@@ -19,11 +19,9 @@ class App extends React.Component<Props> {
       title: this.props.route === "successful" ? "Thank you!" : "Singup"
     };
   }
-  componentDidMount() {
-    //alert("DID");
-    this.setState({
-      title: this.props.route === "successful" ? "Thank you!" : "Singup"
-    });
+
+  getTitle() {
+    return this.props.route === "successful" ? "Thank you!" : "Singup";
   }
 
   numberPage(route) {
@@ -44,7 +42,7 @@ class App extends React.Component<Props> {
     // ? Why rendering Progress
     return (
       <div className="App">
-        <h3>{this.state.title}</h3>
+        <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
         <Progress pages={3} page={page} />
         <Content />
         <Footer page={page} />
