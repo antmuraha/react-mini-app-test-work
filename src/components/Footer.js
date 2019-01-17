@@ -14,7 +14,10 @@ import ArrowForward from "@material-ui/icons/ArrowForward";
 const styles = theme => ({
   nav: {
     display: "flex",
-    "justify-content": "space-between"
+    "justify-content": "space-between",
+    flex: "1 1 auto",
+    "flex-direction": "row",
+    "align-items": "flex-end"
   },
   button: {
     margin: theme.spacing.unit
