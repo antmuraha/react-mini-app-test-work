@@ -9,7 +9,13 @@ import IconButton from "@material-ui/core/IconButton";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { withStyles } from "@material-ui/core/styles";
 
+import ArrowForward from "@material-ui/icons/ArrowForward";
+
 const styles = theme => ({
+  nav: {
+    display: "flex",
+    "justify-content": "space-between"
+  },
   button: {
     margin: theme.spacing.unit
   },
@@ -40,39 +46,35 @@ class Footer extends React.Component<Props> {
     }
   }
   render() {
-    let buttonHidden = { opacity: 0, "pointerEvents": "none" };
+    let buttonHidden = { opacity: 0, pointerEvents: "none" };
 
     console.log("Render Footer");
     const { classes } = this.props;
     return (
-      <footer>
-        <nav>
-          <Button
-            style={
-              this.props.page === 1 || this.props.page === 3 ? buttonHidden : {}
-            }
-            component={Link}
-            to="/"
-            color="primary"
-            className={classes.button}
-          >
-            Back
-          </Button>
+      <nav className={classes.nav}>
+        <Button
+          style={
+            this.props.page === 1 || this.props.page === 3 ? buttonHidden : {}
+          }
+          component={Link}
+          to="/"
+          color="primary"
+          className={classes.button}
+        >
+          Back
+        </Button>
 
-          <Button
-            style={this.props.page === 3 ? buttonHidden : {}}
-            component={Link}
-            to={this.buttonNext()}
-            color="primary"
-            className={classes.button}
-          >
-            Next
-            <SvgIcon>
-              <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
-            </SvgIcon>
-          </Button>
-        </nav>
-      </footer>
+        <Button
+          style={this.props.page === 3 ? buttonHidden : {}}
+          component={Link}
+          to={this.buttonNext()}
+          color="primary"
+          className={classes.button}
+        >
+          Next
+          <ArrowForward className={classes.extendedIcon} />
+        </Button>
+      </nav>
     );
   }
 }

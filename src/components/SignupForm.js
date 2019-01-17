@@ -98,7 +98,7 @@ const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
 let SignupForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
-    <form>
+    <form style={{margin:20+"px"}}>
       <Field name="email" label="Email is required" component={RenderInput} />
       <Field
         name="password"
