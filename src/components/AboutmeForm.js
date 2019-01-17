@@ -1,19 +1,23 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
-import isValidEmail from "sane-email-validation";
+
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 const validate = values => {
   const errors = {};
-  if (!values.email) {
-    errors.email = "Required";
-  } else if (!isValidEmail(values.email)) {
-    errors.email = "Invalid Email";
+  if (!values.date_dd) {
+    errors.date_dd = "Required";
   }
-  if (!values.password) {
-    errors.password = "Required";
+  if (!values.date_mm) {
+    errors.date_mm = "Required";
   }
-  if (!values.confirm) {
-    errors.confirm = "Required";
+  if (!values.date_yy) {
+    errors.date_yy = "Required";
+  }
+  if (!values.gender) {
+    errors.gender = "Required";
   }
   return errors;
 };
@@ -52,20 +56,26 @@ const RenderSelect = ({ input, meta, label, options, ...rest }) => {
 };
 
 const RenderRadio = ({ input, meta, label, labels, ...rest }) => {
-  let lbs = labels.map((val, index) => (
-    <input name={input.name} type="radio" label={val} key={val} />
-  ));
+  let state = { val: false };
+  let lbs = labels.map((val, index) => {
+    console.log("++++++++", val, index);
+    return <Tab data-value={index.toString()} label={val} key={val} />;
+  });
   return (
-    <div
-      className={[
-        meta.error && meta.touched ? "error" : "",
-        meta.active ? "active" : ""
-      ].join(" ")}
+    <Tabs
+      {...input}
+      {...rest}
+      value={state.val}
+      indicatorColor="primary"
+      textColor="primary"
+      variant="fullWidth"
+      onChange={(event, value) => {
+        console.log(state);
+        state.val = value;
+      }}
     >
-      <label>{label}</label>
       {lbs}
-      {meta.error && meta.touched && <span>{meta.error}</span>}
-    </div>
+    </Tabs>
   );
 };
 
@@ -84,7 +94,7 @@ let AboutmeForm = ({ handleSubmit, submitting }) => (
       name="where"
       label="Where did you hear about is?"
       component={RenderSelect}
-      options={["Internet", "Friends", "Newspaper"]}
+      options={["", "Internet", "Friends", "Newspaper"]}
     />
   </form>
 );
