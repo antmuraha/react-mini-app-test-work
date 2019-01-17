@@ -1,5 +1,5 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, formValueSelector, Field, Fields } from "redux-form";
 import { connect } from "react-redux";
 
 import Paper from "@material-ui/core/Paper";
@@ -77,13 +77,30 @@ const createRenderer = render => ({ input, meta, label, ...rest }) => (
 
 const RenderInput = createRenderer((input, label) => <input {...input} />);
 
-const RenderDate = ({ input, meta, name, label, classes, ...rest }) => {
-  console.log("====", input, meta, label, classes);
+const RenderDate = fields => {
+  console.log("====FILDS", fields);
+  const classes = fields.classes;
+  const label = fields.label;
+  let fls = fields.names.map((val, ind, oo) => {
+    return (
+      <Input
+        {...fields[val].input}
+        type="text"
+        placeholder="DD"
+        margin="dense"
+        key={val}
+      />
+    );
+  });
+  let error;
+  let text_error;
+  fields.names.map((val, ind) => {
+    text_error = fields[val].meta.error;
+    return (error = fields[val].meta.error && fields[val].meta.touched);
+  });
 
-  let error = meta.error && meta.touched;
   return (
     <FormControl
-      {...input}
       margin="dense"
       className={classNames(classes.margin, classes.textField)}
       fullWidth
@@ -95,40 +112,39 @@ const RenderDate = ({ input, meta, name, label, classes, ...rest }) => {
       >
         {label}
       </InputLabel>
-      <div className={classNames(classes.date)}>
-        <Input type="text" placeholder="DD" margin="dense" />
-        <Input type="text" placeholder="MM" margin="dense" />
-        <Input type="text" placeholder="YYYY" margin="dense" />
-      </div>
-      <FormHelperText className={error && classes.error}>
-        {error ? meta.error : ""}
+      <div className={classNames(classes.date)}>{fls}</div>
+      <FormHelperText className={classNames(error && classes.error)}>
+        {error ? text_error : ""}
       </FormHelperText>
     </FormControl>
   );
 };
 const RenderDateStyle = withStyles(styles)(RenderDate);
 
-const RenderSelect = ({ input, meta, label, options, classes, ...rest }) => {
+const RenderSelect = ({
+  input,
+  meta,
+  label,
+  options,
+  value,
+  classes,
+  ...rest
+}) => {
   console.log("$$$$$$$$", input, meta, label, options, classes);
   let opts = options.map((val, index) => (
-    <MenuItem value={val} key={val}>
+    <MenuItem value={index + 1} key={index}>
       {val}
     </MenuItem>
   ));
   let error = meta.error && meta.touched;
   return (
-    <FormControl {...input} className={classes.formControl} required fullWidth>
-      <InputLabel htmlFor="age-label-placeholder">{label}</InputLabel>
-      <Select
-        value={input.value}
-        displayEmpty
-        name="age"
-        className={classes.selectEmpty}
-      >
+    <FormControl className={classes.formControl} required fullWidth>
+      <InputLabel htmlFor="adornment-password">{label}</InputLabel>
+      <Select {...input} className={classes.selectEmpty}>
         {opts}
       </Select>
       <FormHelperText className={error && classes.error}>
-        {error ? meta.error : ""}
+        {error && meta.error}
       </FormHelperText>
     </FormControl>
   );
@@ -159,46 +175,53 @@ const RenderRadio = ({ input, meta, label, labels, ...rest }) => {
   );
 };
 
-let AboutmeForm = props => {
-  console.log("77777777777", props);
-  let state = {};
-  return (
-    <form style={{ margin: 20 + "px" }}>
-      <Field name="date" label="Data of birth" component={RenderDateStyle} />
-      <Field
-        name="gender"
-        label="Gender"
-        labels={["male", "female", "unspecified"]}
-        component={RenderRadio}
-      />
-      <Field
-        name="where"
-        label="Where did you hear about is?"
-        component={RenderSelectStyle}
-        options={["Internet", "Friends", "Newspaper"]}
-      />
-    </form>
-  );
-};
-
-function mapStateToProps(state) {
-  return {
-    where: state.aboutme.where
-  };
+class AboutmeForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    console.log("77777777777", this.props);
+    return (
+      <form style={{ margin: 20 + "px" }}>
+        <Fields
+          names={["dd", "mm", "yy"]}
+          label="Data of birth"
+          component={RenderDateStyle}
+        />
+        <Field
+          name="gender"
+          label="Gender"
+          labels={["male", "female", "unspecified"]}
+          component={RenderRadio}
+        />
+        <Field
+          name="where"
+          label="Where did you hear about is?"
+          component={RenderSelectStyle}
+          options={["Internet", "Friends", "Newspaper"]}
+        />
+      </form>
+    );
+  }
 }
 
-// Defining mapDispatchToProps as plain object
-const mapDispatchToProps = {};
+const selector = formValueSelector("aboutme");
+
+AboutmeForm = connect(state => selector(state, "date_dd", "gender", "where"))(
+  AboutmeForm
+);
 
 AboutmeForm = reduxForm({
   form: "aboutme",
   destroyOnUnmount: false,
+  initialValues: {
+    date_dd: "",
+    date_mm: "",
+    date_yy: "",
+    gender: false,
+    where: false
+  },
   validate
-})(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AboutmeForm)
-);
+})(AboutmeForm);
 
 export default AboutmeForm;

@@ -153,7 +153,8 @@ const mapDispatchToProps = {};
 SignupForm = reduxForm({
   form: "signup",
   validate,
-  warn
+  warn,
+  destroyOnUnmount: false
 })(
   connect(
     mapStateToProps,

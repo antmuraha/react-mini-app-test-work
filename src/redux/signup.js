@@ -12,7 +12,7 @@ export default (state = {}, action) => {
     case "email":
     case "password":
     case "confirm": {
-      return { ...state, [action.field]: action.payload };
+      return { ...state, [action.meta.field]: action.meta.payload };
     }
   }
   return state;
