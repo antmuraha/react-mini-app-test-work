@@ -9,13 +9,13 @@ export default (state = {}, action) => {
   }
 
   switch (action.meta.field) {
-    case "date_dd":
-    case "date_mm":
-    case "date_yy":
+    case "dd":
+    case "mm":
+    case "yy":
     case "gender":
     case "where": {
       console.log("0000", action.meta.field, action.payload);
-      return { ...state, [action.meta.field]: action.payload };
+      //return { ...state, [action.meta.field]: action.payload };
     }
   }
   return state;

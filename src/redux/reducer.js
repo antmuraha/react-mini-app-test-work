@@ -7,9 +7,9 @@ import successful from "./successful";
 import history from "./history";
 
 export default combineReducers({
-  signup,
-  aboutme,
-  successful,
+//  signup,
+//  aboutme,
+//  successful,
   history,
   form: formReducer
 });

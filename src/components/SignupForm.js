@@ -12,7 +12,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 const styles = theme => {
-  console.log("THEME", theme);
+  //console.log("THEME", theme);
   return {
     root: {
       display: "flex",
@@ -32,7 +32,7 @@ const styles = theme => {
 };
 
 const validate = values => {
-  console.log("--- validate", values);
+  //console.log("--- validate", values);
   const errors = {};
   const requiredFields = ["email", "password", "confirm"];
   requiredFields.forEach(field => {
@@ -57,16 +57,14 @@ const validate = values => {
 };
 
 const warn = values => {
-  console.log("--- warn", values);
+  //console.log("--- warn", values);
   const warnings = {};
-  if (values.password < 19) {
-    warnings.age = "Hmm, you seem a bit young...";
-  }
+
   return warnings;
 };
 
 const RenderInput = ({ input, meta, name, label, ...rest }) => {
-  console.log("+++++", meta);
+  //console.log("+++++", meta);
   let error = meta.error && meta.touched && meta.error;
   return (
     <TextField
@@ -86,11 +84,10 @@ const RenderInputPassword = ({
   meta,
   name,
   label,
-  value,
   classes,
   ...rest
 }) => {
-  console.log("====", input, meta, label, classes);
+  //console.log("====", input, meta, label, classes);
 
   let error = meta.error && meta.touched;
   return (
@@ -107,8 +104,8 @@ const RenderInputPassword = ({
       >
         {label}
       </InputLabel>
-      <Input type="password" margin="dense" value />
-      <FormHelperText className={error && classes.error}>
+      <Input type="password" margin="dense" />
+      <FormHelperText className={classNames(error && classes.error)}>
         {error ? meta.error : ""}
       </FormHelperText>
     </FormControl>
@@ -117,19 +114,12 @@ const RenderInputPassword = ({
 const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
 
 let SignupForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form style={{ margin: 20 + "px" }}>
-      <Field
-        name="email"
-        label="Email is required"
-        component={RenderInput}
-        value="11111111"
-      />
+      <Field name="email" label="Email is required" component={RenderInput} />
       <Field
         name="password"
         label="Password"
-        value="222222"
         component={RenderInputPasswordStyle}
       />
       <Field
@@ -141,25 +131,11 @@ let SignupForm = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    email: state.signup.email
-  };
-}
-
-// Defining mapDispatchToProps as plain object
-const mapDispatchToProps = {};
-
 SignupForm = reduxForm({
   form: "signup",
   validate,
   warn,
   destroyOnUnmount: false
-})(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SignupForm)
-);
+})(SignupForm);
 
 export default SignupForm;

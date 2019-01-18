@@ -44,7 +44,7 @@ const styles = theme => {
 const validate = values => {
   console.log("--- validate", values);
   const errors = {};
-  const requiredFields = ["date", "gender", "where"];
+  const requiredFields = ["date.dd", "date.mm", "date.yy", "gender", "where"];
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = "Required";
@@ -81,22 +81,12 @@ const RenderDate = fields => {
   console.log("====FILDS", fields);
   const classes = fields.classes;
   const label = fields.label;
-  let fls = fields.names.map((val, ind, oo) => {
-    return (
-      <Input
-        {...fields[val].input}
-        type="text"
-        placeholder="DD"
-        margin="dense"
-        key={val}
-      />
-    );
-  });
+  let fls = Object.keys(fields.date).map((val, ind) => {});
   let error;
-  let text_error;
-  fields.names.map((val, ind) => {
-    text_error = fields[val].meta.error;
-    return (error = fields[val].meta.error && fields[val].meta.touched);
+  let text_error = "TEXT_ERROR";
+  Object.keys(fields.date).map((val, ind) => {
+    //  text_error = fields[val].meta.error;
+    //  return (error = fields[val].meta.error && fields[val].meta.touched);
   });
 
   return (
@@ -112,7 +102,26 @@ const RenderDate = fields => {
       >
         {label}
       </InputLabel>
-      <div className={classNames(classes.date)}>{fls}</div>
+      <div className={classNames(classes.date)}>
+        <Input
+          {...fields.date.dd.input}
+          type="text"
+          placeholder="DD"
+          margin="dense"
+        />
+        <Input
+          {...fields.date.mm.input}
+          type="text"
+          placeholder="MM"
+          margin="dense"
+        />
+        <Input
+          {...fields.date.yy.input}
+          type="text"
+          placeholder="YY"
+          margin="dense"
+        />
+      </div>
       <FormHelperText className={classNames(error && classes.error)}>
         {error ? text_error : ""}
       </FormHelperText>
@@ -138,12 +147,12 @@ const RenderSelect = ({
   ));
   let error = meta.error && meta.touched;
   return (
-    <FormControl className={classes.formControl} required fullWidth>
+    <FormControl className={classNames(classes.formControl)} required fullWidth>
       <InputLabel htmlFor="adornment-password">{label}</InputLabel>
-      <Select {...input} className={classes.selectEmpty}>
+      <Select {...input} className={classNames(classes.selectEmpty)}>
         {opts}
       </Select>
-      <FormHelperText className={error && classes.error}>
+      <FormHelperText className={classNames(error && classes.error)}>
         {error && meta.error}
       </FormHelperText>
     </FormControl>
@@ -184,7 +193,7 @@ class AboutmeForm extends React.Component {
     return (
       <form style={{ margin: 20 + "px" }}>
         <Fields
-          names={["dd", "mm", "yy"]}
+          names={["date.dd", "date.mm", "date.yy"]}
           label="Data of birth"
           component={RenderDateStyle}
         />
@@ -207,17 +216,16 @@ class AboutmeForm extends React.Component {
 
 const selector = formValueSelector("aboutme");
 
-AboutmeForm = connect(state => selector(state, "date_dd", "gender", "where"))(
-  AboutmeForm
-);
+AboutmeForm = connect(state => {
+  console.log("AboutmeForm:connect", state);
+  return selector(state, "date.dd", "date.mm", "date.yy", "gender", "where");
+})(AboutmeForm);
 
 AboutmeForm = reduxForm({
   form: "aboutme",
   destroyOnUnmount: false,
   initialValues: {
-    date_dd: "",
-    date_mm: "",
-    date_yy: "",
+    //date:{mm:2},
     gender: false,
     where: false
   },
