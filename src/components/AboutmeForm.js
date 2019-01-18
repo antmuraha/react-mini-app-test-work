@@ -1,5 +1,11 @@
 import React from "react";
-import { reduxForm, formValueSelector, Field, Fields } from "redux-form";
+import {
+  reduxForm,
+  formValueSelector,
+  Field,
+  Fields,
+  FormSection
+} from "redux-form";
 import { connect } from "react-redux";
 
 import Paper from "@material-ui/core/Paper";
@@ -14,8 +20,12 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormLabel from "@material-ui/core/FormLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputAdornment from "@material-ui/core/InputAdornment";
+
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 const styles = theme => {
   console.log("THEME", theme);
@@ -77,56 +87,36 @@ const createRenderer = render => ({ input, meta, label, ...rest }) => (
 
 const RenderInput = createRenderer((input, label) => <input {...input} />);
 
-const RenderDate = fields => {
-  console.log("====FILDS", fields);
-  const classes = fields.classes;
-  const label = fields.label;
-  let fls = Object.keys(fields.date).map((val, ind) => {});
+const RenderFullDate = props => {
+  const { name, names, placeholders } = props;
+  const classes = props.classes;
+  const label = props.label;
   let error;
   let text_error = "TEXT_ERROR";
-  Object.keys(fields.date).map((val, ind) => {
-    //  text_error = fields[val].meta.error;
-    //  return (error = fields[val].meta.error && fields[val].meta.touched);
+  let fields = names.map((value, index) => {
+    return (
+      <Field
+        name={value}
+        component={RenderDateStyle}
+        placeholder={placeholders[index]}
+      />
+    );
   });
-
   return (
-    <FormControl
-      margin="dense"
-      className={classNames(classes.margin, classes.textField)}
-      fullWidth
-      required
-    >
-      <InputLabel
-        htmlFor="adornment-password"
-        className={classNames(error && classes.error)}
-      >
-        {label}
-      </InputLabel>
-      <div className={classNames(classes.date)}>
-        <Input
-          {...fields.date.dd.input}
-          type="text"
-          placeholder="DD"
-          margin="dense"
-        />
-        <Input
-          {...fields.date.mm.input}
-          type="text"
-          placeholder="MM"
-          margin="dense"
-        />
-        <Input
-          {...fields.date.yy.input}
-          type="text"
-          placeholder="YY"
-          margin="dense"
-        />
-      </div>
-      <FormHelperText className={classNames(error && classes.error)}>
-        {error ? text_error : ""}
-      </FormHelperText>
-    </FormControl>
+    <FormSection name={name} label="Data of birth">
+      {fields}
+    </FormSection>
   );
+};
+const RenderFullDateStyle = withStyles(styles)(RenderFullDate);
+
+const RenderDate = param => {
+  console.log("====FILDS", param);
+  const classes = param.classes;
+  const label = param.label;
+  let error;
+  let text_error = "TEXT_ERROR";
+  return <Input {...param.input} placeholder={param.placeholder} />;
 };
 const RenderDateStyle = withStyles(styles)(RenderDate);
 
@@ -163,24 +153,16 @@ const RenderSelectStyle = withStyles(styles)(RenderSelect);
 const RenderRadio = ({ input, meta, label, labels, ...rest }) => {
   let state = { val: false };
   let lbs = labels.map((val, index) => {
-    console.log("++++++++", val, index);
-    return <Tab data-value={index.toString()} label={val} key={val} />;
+    return (
+      <ToggleButton value={val} key={val}>
+        {val}
+      </ToggleButton>
+    );
   });
   return (
-    <Tabs
-      {...input}
-      {...rest}
-      value={state.val}
-      indicatorColor="primary"
-      textColor="primary"
-      variant="fullWidth"
-      onChange={(event, value) => {
-        console.log(state);
-        state.val = value;
-      }}
-    >
+    <ToggleButtonGroup {...input} exclusive>
       {lbs}
-    </Tabs>
+    </ToggleButtonGroup>
   );
 };
 
@@ -192,10 +174,10 @@ class AboutmeForm extends React.Component {
     console.log("77777777777", this.props);
     return (
       <form style={{ margin: 20 + "px" }}>
-        <Fields
-          names={["date.dd", "date.mm", "date.yy"]}
-          label="Data of birth"
-          component={RenderDateStyle}
+        <RenderFullDateStyle
+          name="date"
+          names={["d", "m", "y"]}
+          placeholders={["DD", "MM", "YYYY"]}
         />
         <Field
           name="gender"
@@ -214,20 +196,14 @@ class AboutmeForm extends React.Component {
   }
 }
 
-const selector = formValueSelector("aboutme");
-
-AboutmeForm = connect(state => {
-  console.log("AboutmeForm:connect", state);
-  return selector(state, "date.dd", "date.mm", "date.yy", "gender", "where");
-})(AboutmeForm);
-
 AboutmeForm = reduxForm({
   form: "aboutme",
   destroyOnUnmount: false,
   initialValues: {
     //date:{mm:2},
     gender: false,
-    where: false
+    where: false,
+    date: { dd: "", mm: "" }
   },
   validate
 })(AboutmeForm);
