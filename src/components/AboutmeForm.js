@@ -121,6 +121,7 @@ const RenderFullDate = props => {
   let error;
   let text_error = "TEXT_ERROR";
   let fields = names.map((value, index) => {
+    console.log("===MAP", value, index);
     return (
       <Field
         name={value}
@@ -132,7 +133,7 @@ const RenderFullDate = props => {
   });
   return (
     <FormSection name={props.name} label="Data of birth">
-      <FormControl fullWidth>
+      <FormControl requered fullWidth>
         <InputLabel shrink margin="dense">
           Date of birth
         </InputLabel>
@@ -151,9 +152,11 @@ const RenderDate = props => {
   let error;
   let text_error = "TEXT_ERROR";
   return (
-    <input
-      required
-      {...props.input}
+    <Input
+      //value={props.input.value}
+     onChange={props.input.onChange}
+//      onFocus={props.input.onFocus}
+//      onBlur={props.input.onBlur}
       placeholder={props.placeholder}
       type="text"
     />
