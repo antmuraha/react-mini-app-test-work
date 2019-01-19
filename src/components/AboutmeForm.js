@@ -46,7 +46,8 @@ const styles = theme => {
     formControl: {},
     error: { color: theme.palette.error.main },
     date: {
-      display: "flex"
+      display: "flex",
+      "flex-direction": "row"
     }
   };
 };
@@ -54,12 +55,37 @@ const styles = theme => {
 const validate = values => {
   console.log("--- validate", values);
   const errors = {};
-  const requiredFields = ["date.dd", "date.mm", "date.yy", "gender", "where"];
+  const requiredFields = ["date.d", "date.m", "date.y", "gender", "where"];
   requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = "Required";
+    let name, subname;
+    if (field.indexOf(".") !== -1) {
+      let names = field.split(".");
+      if (names.length < 2) {
+        console.error("Validate. Error index Field", field);
+      }
+      name = names[0];
+      subname = names[1];
+    } else {
+      name = field;
+    }
+    if (subname) {
+      if (!errors[name]) {
+        errors[name] = {};
+      }
+      if (values[name]) {
+        if (!values[name][subname]) {
+          errors[name][subname] = "Required";
+        }
+      } else {
+        errors[name][subname] = "Required";
+      }
+    } else {
+      if (!values[name]) {
+        errors[name] = "Required";
+      }
     }
   });
+  console.log("ERROR", errors);
   return errors;
 };
 
@@ -88,6 +114,7 @@ const createRenderer = render => ({ input, meta, label, ...rest }) => (
 const RenderInput = createRenderer((input, label) => <input {...input} />);
 
 const RenderFullDate = props => {
+  console.log("====FILDS_1", props);
   const { name, names, placeholders } = props;
   const classes = props.classes;
   const label = props.label;
@@ -99,24 +126,38 @@ const RenderFullDate = props => {
         name={value}
         component={RenderDateStyle}
         placeholder={placeholders[index]}
+        key={index}
       />
     );
   });
   return (
-    <FormSection name={name} label="Data of birth">
-      {fields}
+    <FormSection name={props.name} label="Data of birth">
+      <FormControl fullWidth>
+        <InputLabel shrink margin="dense">
+          Date of birth
+        </InputLabel>
+        <div className={classes.date}>{fields}</div>
+        <FormHelperText>Some important helper text</FormHelperText>
+      </FormControl>
     </FormSection>
   );
 };
 const RenderFullDateStyle = withStyles(styles)(RenderFullDate);
 
-const RenderDate = param => {
-  console.log("====FILDS", param);
-  const classes = param.classes;
-  const label = param.label;
+const RenderDate = props => {
+  console.log("====FILDS_2", props);
+  const classes = props.classes;
+  const label = props.label;
   let error;
   let text_error = "TEXT_ERROR";
-  return <Input {...param.input} placeholder={param.placeholder} />;
+  return (
+    <input
+      required
+      {...props.input}
+      placeholder={props.placeholder}
+      type="text"
+    />
+  );
 };
 const RenderDateStyle = withStyles(styles)(RenderDate);
 
@@ -138,7 +179,7 @@ const RenderSelect = ({
   let error = meta.error && meta.touched;
   return (
     <FormControl className={classNames(classes.formControl)} required fullWidth>
-      <InputLabel htmlFor="adornment-password">{label}</InputLabel>
+      <InputLabel htmlFor="age-helper">{label}</InputLabel>
       <Select {...input} className={classNames(classes.selectEmpty)}>
         {opts}
       </Select>
@@ -202,8 +243,8 @@ AboutmeForm = reduxForm({
   initialValues: {
     //date:{mm:2},
     gender: false,
-    where: false,
-    date: { dd: "", mm: "" }
+    where: false
+    //    date: { d: "", m: "" }
   },
   validate
 })(AboutmeForm);
