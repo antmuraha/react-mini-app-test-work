@@ -135,7 +135,10 @@ SignupForm = reduxForm({
   form: "signup",
   validate,
   warn,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+//  enableReinitialize:true,
+//  keepDirtyOnReinitialize:true,
+//  updateUnregisteredFields:true
 })(SignupForm);
 
 export default SignupForm;

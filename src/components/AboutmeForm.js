@@ -43,7 +43,20 @@ const styles = theme => {
     textField: {
       flexBasis: 200
     },
-    formControl: {},
+    formControl: {
+      position: "relative",
+      transform: "none",
+      "text-transform": "uppercase",
+      "font-size": "0.85rem",
+      "margin-top": "20px",
+      "letter-spacing": "-1px"
+    },
+    input: {
+      "::placeholder": {
+        color: "blue",
+        "text-align": "center"
+      }
+    },
     error: { color: theme.palette.error.main },
     date: {
       display: "flex",
@@ -51,7 +64,7 @@ const styles = theme => {
     }
   };
 };
-const validateTest = (value, allValues, props, name) => {
+const required = (value, allValues, props, name) => {
   console.log("TESTVALIDAT", value, allValues, props, name);
   return value || typeof value === "number" ? undefined : "Required";
 };
@@ -132,7 +145,8 @@ class RenderFullDate extends React.Component {
           placeholder={this.props.placeholders[index]}
           key={index}
           setError={this.setError}
-          validate={[validateTest]}
+          validate={[required]}
+          className={classNames(this.props.classes.input)}
         />
       );
     });
@@ -147,8 +161,8 @@ class RenderFullDate extends React.Component {
     const { classes, label, name, names, placeholders } = this.props;
     return (
       <FormSection name={name} label="Data of birth">
-        <FormControl fullWidth>
-          <InputLabel shrink margin="dense">
+        <FormControl fullWidth required>
+          <InputLabel className={classNames(classes.formControl)}>
             Date of birth
           </InputLabel>
           <div className={classes.date}>{this.fields()}</div>
@@ -182,6 +196,32 @@ const RenderDate = props => {
 };
 const RenderDateStyle = withStyles(styles)(RenderDate);
 
+const RenderRadio = ({ input, meta, label, labels, classes, ...rest }) => {
+  let state = { val: false };
+  let error = meta.error && meta.touched;
+  let lbs = labels.map((val, index) => {
+    return (
+      <ToggleButton value={val} key={val}>
+        {val}
+      </ToggleButton>
+    );
+  });
+  return (
+    <FormControl required fullWidth>
+      <InputLabel className={classNames(classes.formControl)}>
+        Gender
+      </InputLabel>
+      <ToggleButtonGroup {...input} exclusive style={{ display: "flex" }}>
+        {lbs}
+      </ToggleButtonGroup>
+      <FormHelperText className={classNames(error && classes.error)}>
+        {error && meta.error}
+      </FormHelperText>
+    </FormControl>
+  );
+};
+const RenderRadioStyle = withStyles(styles)(RenderRadio);
+
 const RenderSelect = ({
   input,
   meta,
@@ -199,9 +239,15 @@ const RenderSelect = ({
   ));
   let error = meta.error && meta.touched;
   return (
-    <FormControl className={classNames(classes.formControl)} required fullWidth>
-      <InputLabel htmlFor="age-helper">{label}</InputLabel>
-      <Select {...input} className={classNames(classes.selectEmpty)}>
+    <FormControl fullWidth>
+      <InputLabel className={classNames(classes.formControl)}>
+        {label}
+      </InputLabel>
+      <Select
+        {...input}
+        style={{ marginTop: 0 + "px" }}
+        className={classNames(classes.formControl)}
+      >
         {opts}
       </Select>
       <FormHelperText className={classNames(error && classes.error)}>
@@ -211,22 +257,6 @@ const RenderSelect = ({
   );
 };
 const RenderSelectStyle = withStyles(styles)(RenderSelect);
-
-const RenderRadio = ({ input, meta, label, labels, ...rest }) => {
-  let state = { val: false };
-  let lbs = labels.map((val, index) => {
-    return (
-      <ToggleButton value={val} key={val}>
-        {val}
-      </ToggleButton>
-    );
-  });
-  return (
-    <ToggleButtonGroup {...input} exclusive>
-      {lbs}
-    </ToggleButtonGroup>
-  );
-};
 
 class AboutmeForm extends React.Component {
   constructor(props) {
@@ -245,8 +275,8 @@ class AboutmeForm extends React.Component {
           name="gender"
           label="Gender"
           labels={["male", "female", "unspecified"]}
-          component={RenderRadio}
-          validate={[validateTest]}
+          component={RenderRadioStyle}
+          validate={[required]}
         />
         <Field
           name="where"
@@ -262,6 +292,9 @@ class AboutmeForm extends React.Component {
 AboutmeForm = reduxForm({
   form: "aboutme",
   destroyOnUnmount: false,
+  //enableReinitialize: true,
+  //keepDirtyOnReinitialize: true,
+  //updateUnregisteredFields: true,
   initialValues: {
     //date:{mm:2},
     gender: false,

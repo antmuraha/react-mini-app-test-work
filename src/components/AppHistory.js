@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -8,6 +9,8 @@ import { routingTo } from "../actions/history";
 class AppHistory extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { redirect: false };
+    console.log("AppHistory", this.props);
     this.props.history.listen((location, action) => {
       // location is an object like window.location
       this.props.routingTo(location.pathname);
@@ -19,10 +22,18 @@ class AppHistory extends React.Component {
         location.state
       );*/
     });
+    if (this.props.history.location.pathname !== "/") {
+      this.state.redirect = true;
+    }
+  }
+
+  componentDidMount() {
+    this.props.routingTo(this.props.history.location.pathname);
   }
 
   render() {
-    return <React.Fragment />;
+    const hist = this.state.redirect ? <Redirect to="/" /> : <React.Fragment />;
+    return hist;
   }
 }
 

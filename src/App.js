@@ -35,6 +35,9 @@ class App extends React.Component<Props> {
       case "successful": {
         return 3;
       }
+      default: {
+        console.error("Not defined route", route);
+      }
     }
   }
   render() {

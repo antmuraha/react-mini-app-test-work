@@ -1,5 +1,6 @@
 import React from "react";
 
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button";
@@ -17,19 +18,40 @@ const styles = theme => ({
   doneIcon: {
     marginRight: theme.spacing.unit,
     color: "white"
+  },
+  content: {
+    display: "flex",
+    "flex-direction": "column",
+    "align-items": "center",
+    margin: "20px",
+    "justify-content": "space-evenly",
+    height: "100%"
+  },
+  margin: {
+    margin: "20px"
   }
 });
 
 const SuccessfulForm = ({ classes }) => (
-  <React.Fragment>
-    <Fab color="primary" variant="round" size="large" className={classes.fab}>
+  <div className={classes.content}>
+    <Fab
+      color="primary"
+      variant="round"
+      size="large"
+      className={classNames(classes.fab, classes.margin)}
+    >
       <Done classes={styles.doneIcon} />
     </Fab>
-    <Button color="primary" variant="outlined" className={classes.button} onClick={onPress}>
+    <Button
+      color="primary"
+      variant="outlined"
+      className={classNames(classes.button, classes.margin)}
+      onClick={onPress}
+    >
       Go to Dashboard
       <ArrowForward className={classes.extendedIcon} />
     </Button>
-  </React.Fragment>
+  </div>
 );
 
 let onPress = () => {

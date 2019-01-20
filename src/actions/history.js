@@ -1,6 +1,12 @@
 export function routingTo(href) {
-  let route = "signup";
+  console.log("routingTo", href);
+  let route;
   switch (href) {
+    case "/":
+    case "/signup": {
+      route = "signup";
+      break;
+    }
     case "/aboutme": {
       route = "aboutme";
       break;
