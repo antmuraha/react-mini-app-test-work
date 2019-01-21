@@ -68,6 +68,46 @@ const required = (value, allValues, props, name) => {
   console.log("TESTVALIDAT", value, allValues, props, name);
   return value || typeof value === "number" ? undefined : "Required";
 };
+const date = (value, allValues, props, name) => {
+  console.log("DATE_VALIDAT", value, allValues, props, name);
+  switch (name) {
+    case "date.d": {
+      return date_d(value);
+    }
+    case "date.m": {
+      return date_m(value);
+    }
+    case "date.y": {
+      return date_y(value);
+    }
+  }
+};
+const date_d = value => {
+  if (/[^0-9]/g.test(value)) {
+    return "Day should be a number";
+  }
+  if (parseInt(value) < 1 || parseInt(value) > 31) {
+    return "Day should be in the range of 1 to 31";
+  }
+};
+const date_m = value => {
+  if (/[^0-9]/g.test(value)) {
+    return "Day should be a number";
+  }
+  if (parseInt(value) < 1 || parseInt(value) > 12) {
+    return "Month should be in the range of 1 to 12";
+  }
+};
+const date_y = value => {
+  if (/[^0-9]/g.test(value)) {
+    return "Year should be a number";
+  }
+  let d = new Date().getFullYear();
+  if (parseInt(value) < 1800 || parseInt(value) > d) {
+    return "Month should be in the range of 1800 to " + d;
+  }
+};
+
 const validate = values => {
   console.log("--- validate", values);
   const errors = {};
@@ -145,7 +185,7 @@ class RenderFullDate extends React.Component {
           placeholder={this.props.placeholders[index]}
           key={index}
           setError={this.setError}
-          validate={[required]}
+          validate={[required, date]}
           className={classNames(this.props.classes.input)}
         />
       );
@@ -166,7 +206,9 @@ class RenderFullDate extends React.Component {
             Date of birth
           </InputLabel>
           <div className={classes.date}>{this.fields()}</div>
-          <FormHelperText>{this.state.error}</FormHelperText>
+          <FormHelperText className={this.state.error && classes.error}>
+            {this.state.error}
+          </FormHelperText>
         </FormControl>
       </FormSection>
     );

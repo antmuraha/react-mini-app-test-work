@@ -114,6 +114,8 @@ const RenderInputPassword = ({
 const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
 
 let SignupForm = props => {
+  const { error, handleSubmit, pristine, reset, submitting, valid } = props;
+  console.log("FORM SIGN PROPS", props);
   return (
     <form style={{ margin: 20 + "px" }}>
       <Field name="email" label="Email is required" component={RenderInput} />
@@ -135,10 +137,10 @@ SignupForm = reduxForm({
   form: "signup",
   validate,
   warn,
-  destroyOnUnmount: false,
-//  enableReinitialize:true,
-//  keepDirtyOnReinitialize:true,
-//  updateUnregisteredFields:true
+  destroyOnUnmount: false
+  //  enableReinitialize:true,
+  //  keepDirtyOnReinitialize:true,
+  //  updateUnregisteredFields:true
 })(SignupForm);
 
 export default SignupForm;
