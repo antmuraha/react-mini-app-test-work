@@ -1,6 +1,11 @@
 import React from "react";
+
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import { connect } from "react-redux";
 
+import initStore from "./redux/initStore";
 import "./App.css";
 
 import AppHistory from "./components/AppHistory";
@@ -9,10 +14,12 @@ import Content from "./components/Content";
 
 import { PageContext } from "./components/context";
 
+const store = initStore();
+
 class App extends React.Component<Props> {
   constructor(props) {
     super(props);
-   //console.log(this.props);
+    //console.log(this.props);
 
     this.state = {
       title: this.props.route === "successful" ? "Thank you!" : "Singup"
@@ -43,14 +50,16 @@ class App extends React.Component<Props> {
     const page = this.numberPage(this.props.route);
     // ? Why rendering Progress
     return (
-      <div className="App">
-        <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
-        <Progress pages={3} page={page} />
-        <PageContext.Provider value={{ page }}>
-          <Content page={page} />
-        </PageContext.Provider>
-        <AppHistory />
-      </div>
+        <BrowserRouter>
+          <div className="App">
+            <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
+            <Progress pages={3} page={page} />
+            <PageContext.Provider value={{ page }}>
+              <Content page={page} />
+            </PageContext.Provider>
+            <AppHistory />
+          </div>
+        </BrowserRouter>
     );
   }
 }
