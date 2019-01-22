@@ -1,5 +1,5 @@
 export default (state = {}, action) => {
-  console.log("REDUCER ABOUTME", state, action);
+ //console.log("REDUCER ABOUTME", state, action);
 
   if (!action.meta) {
     return state;
@@ -14,7 +14,7 @@ export default (state = {}, action) => {
     case "yy":
     case "gender":
     case "where": {
-      console.log("0000", action.meta.field, action.payload);
+     //console.log("0000", action.meta.field, action.payload);
       //return { ...state, [action.meta.field]: action.payload };
     }
   }

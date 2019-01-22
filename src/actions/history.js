@@ -1,5 +1,5 @@
 export function routingTo(href) {
-  console.log("routingTo", href);
+ //console.log("routingTo", href);
   let route;
   switch (href) {
     case "/":

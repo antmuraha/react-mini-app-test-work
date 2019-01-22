@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { routingTo } from "../actions/history";
 
@@ -10,7 +9,7 @@ class AppHistory extends React.Component {
   constructor(props) {
     super(props);
     this.state = { redirect: false };
-    console.log("AppHistory", this.props);
+   //console.log("AppHistory", this.props);
     this.props.history.listen((location, action) => {
       // location is an object like window.location
       this.props.routingTo(location.pathname);
@@ -49,7 +48,7 @@ const mapDispatchToProps = { routingTo };
 // OR as Function
 /*
 function mapDispatchToProps(dispatch) {
-  console.log(":mapDispatchToProps");
+ //console.log(":mapDispatchToProps");
   return {
     //actionGotoTest: bindActionCreators(actionGotoTest, dispatch)
   };

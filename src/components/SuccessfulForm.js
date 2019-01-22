@@ -34,7 +34,7 @@ const styles = theme => ({
 });
 
 const SuccessfulForm = props => {
-  console.log("SuccessfulForm PROPS", props);
+ //console.log("SuccessfulForm PROPS", props);
   let classes = props.classes;
   return (
     <div className={classes.content}>
@@ -64,7 +64,7 @@ let onPress = () => {
 };
 
 function mapStateToProps(state) {
-  console.log("SuccessfulForm:mapStateToProps", state);
+ //console.log("SuccessfulForm:mapStateToProps", state);
   return {
   };
 }

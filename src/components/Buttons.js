@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
-import IconButton from "@material-ui/core/IconButton";
-import SvgIcon from "@material-ui/core/SvgIcon";
 import { withStyles } from "@material-ui/core/styles";
 
 import ArrowForward from "@material-ui/icons/ArrowForward";
@@ -51,8 +47,8 @@ class Buttons extends React.Component<Props> {
   render() {
     let buttonHidden = { opacity: 0, pointerEvents: "none" };
 
-    console.log("Render Footer");
-    const { classes } = this.props;
+    //console.log("Render Footer");
+    const { classes, onSubmit } = this.props;
     return (
       <nav className={classes.nav}>
         <Button
@@ -73,6 +69,7 @@ class Buttons extends React.Component<Props> {
           to={this.buttonNext()}
           color="primary"
           className={classes.button}
+          onClick={onSubmit}
         >
           Next
           <ArrowForward className={classes.extendedIcon} />
@@ -94,7 +91,7 @@ const mapDispatchToProps = {};
 // OR as Function
 /*
 function mapDispatchToProps(dispatch) {
-  console.log(":mapDispatchToProps");
+ //console.log(":mapDispatchToProps");
   return {
     //actionGotoTest: bindActionCreators(actionGotoTest, dispatch)
   };

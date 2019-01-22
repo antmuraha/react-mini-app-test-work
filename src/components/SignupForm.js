@@ -4,115 +4,14 @@ import { connect } from "react-redux";
 
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { PageContext } from "./context";
 import Buttons from "./Buttons";
+import RenderInput from "./Input";
+import RenderInputPassword from "./Password";
 
-const styles = theme => {
-  //console.log("THEME", theme);
-  return {
-    root: {
-      display: "flex",
-      flexWrap: "wrap"
-    },
-    margin: {
-      //margin: theme.spacing.unit
-    },
-    withoutLabel: {
-      marginTop: theme.spacing.unit * 3
-    },
-    textField: {
-      flexBasis: 200
-    },
-    error: { color: theme.palette.error.main }
-  };
-};
-
-const required = (value, allValues, props, name) => {
-  console.log("TESTVALIDAT", value, allValues, props, name);
-  return value || typeof value === "number" ? undefined : "Required";
-};
-
-const isEmail = (value, allValues, props, name) => {
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    return "Should be a correct email";
-  }
-};
-
-const isPassword = (value, allValues, props, name) => {
-  if (value && value.length < 6) {
-    return "Password should be minimum 6 characters long";
-  }
-};
-const isConfirmPassword = (value, allValues, props, name) => {
-  console.log("isConfirmPassword", value, allValues, props, name);
-  if (value !== allValues.password) {
-    return "The passwords do not match";
-  }
-};
-
-const warn = values => {
-  //console.log("--- warn", values);
-  const warnings = {};
-
-  return warnings;
-};
-
-const RenderInput = ({ input, meta, name, label, ...rest }) => {
-  //console.log("+++++", meta);
-  let error = meta.error && meta.touched && meta.error;
-  return (
-    <TextField
-      {...input}
-      label={label}
-      margin="dense"
-      error={!!error}
-      fullWidth
-      required
-      helperText={error}
-    />
-  );
-};
-
-const RenderInputPassword = ({
-  input,
-  meta,
-  name,
-  label,
-  classes,
-  ...rest
-}) => {
-  //console.log("====", input, meta, label, classes);
-
-  let error = meta.error && meta.touched;
-  return (
-    <FormControl
-      {...input}
-      margin="dense"
-      className={classNames(classes.margin, classes.textField)}
-      fullWidth
-      required
-    >
-      <InputLabel
-        htmlFor="adornment-password"
-        className={classNames(error && classes.error)}
-      >
-        {label}
-      </InputLabel>
-      <Input type="password" margin="dense" />
-      <FormHelperText className={classNames(error && classes.error)}>
-        {error ? meta.error : ""}
-      </FormHelperText>
-    </FormControl>
-  );
-};
-const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
+import styles from "./styles";
+import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
 class SignupForm extends React.Component {
   render() {
@@ -123,17 +22,17 @@ class SignupForm extends React.Component {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
+      classes
     } = this.props;
     const { page } = this.context;
-    console.log("FORM SIGN PROPS", this.props, this.context);
+   //console.log("FORM SIGN PROPS", this.props, this.context);
     //props.handleSubmit();
-    if (!pristine && valid && this.props.password == this.props.confirm) {
-      console.log("SignupForm VALID");
+    if (!pristine && valid && this.props.password === this.props.confirm) {
+     //console.log("SignupForm VALID");
     }
     return (
-      <form style={{ margin: 20 + "px" }}>
-        <button onClick={onSubmit} />
+      <form className={classNames(classes.form)}>
         <Field
           name="MyClass.contextType = MyContext;email"
           label="Email is required"
@@ -143,27 +42,25 @@ class SignupForm extends React.Component {
         <Field
           name="password"
           label="Password"
-          component={RenderInputPasswordStyle}
+          component={RenderInputPassword}
           validate={[required, isPassword]}
         />
         <Field
           name="confirm"
           label="Confirm password"
-          component={RenderInputPasswordStyle}
+          component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
-        <Buttons page={page} />
+        <Buttons page={page} onSubmit={onSubmit}/>
       </form>
     );
   }
 }
-
 SignupForm.contextType = PageContext;
+SignupForm = withStyles(styles)(SignupForm);
 
 SignupForm = reduxForm({
   form: "signup",
-  //  validate,
-  //  warn,
   destroyOnUnmount: false,
   initialValues: {
     email: "",

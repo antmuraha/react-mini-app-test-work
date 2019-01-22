@@ -1,7 +1,5 @@
-import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import "./App.css";
 
@@ -14,7 +12,7 @@ import { PageContext } from "./components/context";
 class App extends React.Component<Props> {
   constructor(props) {
     super(props);
-    console.log(this.props);
+   //console.log(this.props);
 
     this.state = {
       title: this.props.route === "successful" ? "Thank you!" : "Singup"
@@ -69,7 +67,7 @@ const mapDispatchToProps = {};
 // OR as Function
 /*
 function mapDispatchToProps(dispatch) {
-  console.log(":mapDispatchToProps");
+ //console.log(":mapDispatchToProps");
   return {
     //actionGotoTest: bindActionCreators(actionGotoTest, dispatch)
   };
