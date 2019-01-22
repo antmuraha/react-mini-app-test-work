@@ -1,5 +1,5 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
 
 import classNames from "classnames";
@@ -31,29 +31,27 @@ const styles = theme => {
   };
 };
 
-const validate = values => {
-  //console.log("--- validate", values);
-  const errors = {};
-  const requiredFields = ["email", "password", "confirm"];
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = "Required";
-    }
-  });
-  if (
-    values.email &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-  ) {
-    errors.email = "Invalid email";
+const required = (value, allValues, props, name) => {
+  console.log("TESTVALIDAT", value, allValues, props, name);
+  return value || typeof value === "number" ? undefined : "Required";
+};
+
+const isEmail = (value, allValues, props, name) => {
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+    return "Should be a correct email";
   }
-  if (values.password && values.password.length < 6) {
-    errors.password = "Password should be minimum 6 characters long";
-  } else {
-    if (values.password !== values.confirm) {
-      errors.confirm = "The passwords do not match";
-    }
+};
+
+const isPassword = (value, allValues, props, name) => {
+  if (value && value.length < 6) {
+    return "Password should be minimum 6 characters long";
   }
-  return errors;
+};
+const isConfirmPassword = (value, allValues, props, name) => {
+  console.log("isConfirmPassword", value, allValues, props, name);
+  if (value !== allValues.password) {
+    return "The passwords do not match";
+  }
 };
 
 const warn = values => {
@@ -114,20 +112,40 @@ const RenderInputPassword = ({
 const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
 
 let SignupForm = props => {
-  const { error, handleSubmit, pristine, reset, submitting, valid } = props;
+  const {
+    error,
+    handleSubmit,
+    onSubmit,
+    pristine,
+    reset,
+    submitting,
+    valid
+  } = props;
   console.log("FORM SIGN PROPS", props);
+  //props.handleSubmit();
+  if (!pristine && valid && props.password == props.confirm) {
+    console.log("SignupForm VALID");
+  }
   return (
     <form style={{ margin: 20 + "px" }}>
-      <Field name="email" label="Email is required" component={RenderInput} />
+      <button onClick={onSubmit} />
+      <Field
+        name="email"
+        label="Email is required"
+        component={RenderInput}
+        validate={[required, isEmail]}
+      />
       <Field
         name="password"
         label="Password"
         component={RenderInputPasswordStyle}
+        validate={[required, isPassword]}
       />
       <Field
         name="confirm"
         label="Confirm password"
         component={RenderInputPasswordStyle}
+        validate={[required, isConfirmPassword]}
       />
     </form>
   );
@@ -135,12 +153,20 @@ let SignupForm = props => {
 
 SignupForm = reduxForm({
   form: "signup",
-  validate,
-  warn,
-  destroyOnUnmount: false
-  //  enableReinitialize:true,
-  //  keepDirtyOnReinitialize:true,
-  //  updateUnregisteredFields:true
+  //  validate,
+  //  warn,
+  destroyOnUnmount: false,
+  initialValues: {
+    email: "",
+    password: "",
+    confirm: ""
+  }
+})(SignupForm);
+
+const selector = formValueSelector("signup");
+SignupForm = connect(state => {
+  const values = selector(state, "email", "password", "confirm");
+  return { data_form: values };
 })(SignupForm);
 
 export default SignupForm;

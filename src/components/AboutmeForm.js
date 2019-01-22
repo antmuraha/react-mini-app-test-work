@@ -52,15 +52,32 @@ const styles = theme => {
       "letter-spacing": "-1px"
     },
     input: {
-      "::placeholder": {
-        color: "blue",
-        "text-align": "center"
+      //  flex: "1 1 auto",
+      "min-width": 0,
+      border: 0,
+      //padding: "4px",
+      color: "rgba(0, 0, 0, 0.54)",
+      "border-color": "rgba(0, 0, 0, 0.54)",
+      "border-radius": "5px",
+      "text-align": "center",
+      "font-size": "0.875rem",
+      height: "28px",
+      "&:hover": {
+        "text-decoration": "none",
+        "background-color": "rgba(0, 0, 0, 0.12)"
       }
+    },
+    inputMiddle: {
+      "border-width": "0px 1px",
+      "border-color": "rgba(0, 0, 0, 0.54)",
+      "border-style": "solid"
     },
     error: { color: theme.palette.error.main },
     date: {
+      border: "1px solid rgba(0, 0, 0, 0.54)",
       display: "flex",
-      "flex-direction": "row"
+      "border-radius": "5px"
+      //  padding: "2px"
     }
   };
 };
@@ -68,81 +85,41 @@ const required = (value, allValues, props, name) => {
   console.log("TESTVALIDAT", value, allValues, props, name);
   return value || typeof value === "number" ? undefined : "Required";
 };
+const isInteger = (value, allValues, props, name) => {
+  if (/[^0-9]/g.test(value)) {
+    return "Should be a number";
+  }
+};
 const date = (value, allValues, props, name) => {
   console.log("DATE_VALIDAT", value, allValues, props, name);
   switch (name) {
-    case "date.d": {
+    case "d": {
       return date_d(value);
     }
-    case "date.m": {
+    case "m": {
       return date_m(value);
     }
-    case "date.y": {
+    case "y": {
       return date_y(value);
     }
   }
 };
+
 const date_d = value => {
-  if (/[^0-9]/g.test(value)) {
-    return "Day should be a number";
-  }
   if (parseInt(value) < 1 || parseInt(value) > 31) {
     return "Day should be in the range of 1 to 31";
   }
 };
 const date_m = value => {
-  if (/[^0-9]/g.test(value)) {
-    return "Day should be a number";
-  }
   if (parseInt(value) < 1 || parseInt(value) > 12) {
     return "Month should be in the range of 1 to 12";
   }
 };
 const date_y = value => {
-  if (/[^0-9]/g.test(value)) {
-    return "Year should be a number";
-  }
   let d = new Date().getFullYear();
   if (parseInt(value) < 1800 || parseInt(value) > d) {
-    return "Month should be in the range of 1800 to " + d;
+    return "Year should be in the range of 1800 to " + d;
   }
-};
-
-const validate = values => {
-  console.log("--- validate", values);
-  const errors = {};
-  const requiredFields = ["date.d", "date.m", "date.y", "gender", "where"];
-  requiredFields.forEach(field => {
-    let name, subname;
-    if (field.indexOf(".") !== -1) {
-      let names = field.split(".");
-      if (names.length < 2) {
-        console.error("Validate. Error index Field", field);
-      }
-      name = names[0];
-      subname = names[1];
-    } else {
-      name = field;
-    }
-    if (subname) {
-      if (!errors[name]) {
-        errors[name] = {};
-      }
-      if (values[name]) {
-        if (!values[name][subname]) {
-          errors[name][subname] = "Required";
-        }
-      } else {
-        errors[name][subname] = "Required";
-      }
-    } else {
-      if (!values[name]) {
-        errors[name] = "Required";
-      }
-    }
-  });
-  console.log("ERROR", errors);
-  return errors;
 };
 
 const warn = values => {
@@ -172,12 +149,13 @@ const RenderInput = createRenderer((input, label) => <input {...input} />);
 class RenderFullDate extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { error: false };
+    this.state = { error: "" };
     this.setError = this.setError.bind(this);
   }
+
   fields() {
     return this.props.names.map((value, index) => {
-      console.log("===MAP", value, index);
+      console.log("===MAP", this.props, value, index);
       return (
         <Field
           name={value}
@@ -186,7 +164,6 @@ class RenderFullDate extends React.Component {
           key={index}
           setError={this.setError}
           validate={[required, date]}
-          className={classNames(this.props.classes.input)}
         />
       );
     });
@@ -200,17 +177,40 @@ class RenderFullDate extends React.Component {
     console.log("====FILDS_1", this.props);
     const { classes, label, name, names, placeholders } = this.props;
     return (
-      <FormSection name={name} label="Data of birth">
-        <FormControl fullWidth required>
-          <InputLabel className={classNames(classes.formControl)}>
-            Date of birth
-          </InputLabel>
-          <div className={classes.date}>{this.fields()}</div>
-          <FormHelperText className={this.state.error && classes.error}>
-            {this.state.error}
-          </FormHelperText>
-        </FormControl>
-      </FormSection>
+      <FormControl fullWidth required>
+        <InputLabel className={classNames(classes.formControl)}>
+          Date of birth
+        </InputLabel>
+        <div className={classes.date}>
+          <Field
+            name="d"
+            component={RenderDateStyle}
+            placeholder="DD"
+            props={{ setError: this.setError }}
+            //setError={this.setError}
+            validate={[required, isInteger, date]}
+          />
+          <Field
+            name="m"
+            component={RenderDateStyle}
+            placeholder="MM"
+            props={{ setError: this.setError }}
+            //setError={this.setError}
+            validate={[required, isInteger, date]}
+          />
+          <Field
+            name="y"
+            component={RenderDateStyle}
+            placeholder="YY"
+            props={{ setError: this.setError }}
+            //setError={this.setError}
+            validate={[required, isInteger, date]}
+          />
+        </div>
+        <FormHelperText className={this.state.error && classes.error}>
+          {this.state.error}
+        </FormHelperText>
+      </FormControl>
     );
   }
 }
@@ -220,19 +220,23 @@ const RenderDate = props => {
   console.log("====FILDS_2", props);
   const classes = props.classes;
   const label = props.label;
-  if (props.meta.error) {
+  if (props.meta.touched && props.meta.error) {
     props.setError(props.meta.error);
   } else {
-    props.setError("");
+    if (props.meta.touched) {
+      props.setError("");
+    }
   }
   return (
-    <Input
-      //value={props.input.value}
-      onChange={props.input.onChange}
+    <input
+      {...props.input}
       //      onFocus={props.input.onFocus}
       //      onBlur={props.input.onBlur}
       placeholder={props.placeholder}
       type="text"
+      className={classNames(classes.input, {
+        [classes.inputMiddle]: props.input.name === "m"
+      })}
     />
   );
 };
@@ -305,9 +309,19 @@ class AboutmeForm extends React.Component {
     super(props);
   }
   render() {
+    const {
+      error,
+      handleSubmit,
+      onSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid
+    } = this.props;
     console.log("77777777777", this.props);
     return (
       <form style={{ margin: 20 + "px" }}>
+        <button onClick={onSubmit} />
         <RenderFullDateStyle
           name="date"
           names={["d", "m", "y"]}
@@ -341,9 +355,22 @@ AboutmeForm = reduxForm({
     //date:{mm:2},
     gender: false,
     where: false,
-    date: { d: "", m: "" }
+    date: { d: "", m: "", y: "" }
   }
   //validate
+})(AboutmeForm);
+
+const selector = formValueSelector("aboutme");
+AboutmeForm = connect(state => {
+  // can select values individually
+  const d = selector(state, "d");
+  const m = selector(state, "m");
+  const y = selector(state, "y");
+  const gender = selector(state, "gender");
+  const where = selector(state, "where");
+  // or together as a group
+  const values = selector(state, "d", "m", "y", "gender", "where");
+  return values;
 })(AboutmeForm);
 
 export default AboutmeForm;

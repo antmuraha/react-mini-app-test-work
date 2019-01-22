@@ -27,7 +27,7 @@ class AppHistory extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.routingTo(this.props.history.location.pathname);
   }
 

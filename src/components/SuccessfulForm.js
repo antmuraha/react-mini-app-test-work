@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -32,30 +33,46 @@ const styles = theme => ({
   }
 });
 
-const SuccessfulForm = ({ classes }) => (
-  <div className={classes.content}>
-    <Fab
-      color="primary"
-      variant="round"
-      size="large"
-      className={classNames(classes.fab, classes.margin)}
-    >
-      <Done classes={styles.doneIcon} />
-    </Fab>
-    <Button
-      color="primary"
-      variant="outlined"
-      className={classNames(classes.button, classes.margin)}
-      onClick={onPress}
-    >
-      Go to Dashboard
-      <ArrowForward className={classes.extendedIcon} />
-    </Button>
-  </div>
-);
+const SuccessfulForm = props => {
+  console.log("SuccessfulForm PROPS", props);
+  let classes = props.classes;
+  return (
+    <div className={classes.content}>
+      <Fab
+        color="primary"
+        variant="round"
+        size="large"
+        className={classNames(classes.fab, classes.margin)}
+      >
+        <Done classes={styles.doneIcon} />
+      </Fab>
+      <Button
+        color="primary"
+        variant="outlined"
+        className={classNames(classes.button, classes.margin)}
+        onClick={onPress}
+      >
+        Go to Dashboard
+        <ArrowForward className={classes.extendedIcon} />
+      </Button>
+    </div>
+  );
+};
 
 let onPress = () => {
   alert("successful");
 };
 
-export default withStyles(styles)(SuccessfulForm);
+function mapStateToProps(state) {
+  console.log("SuccessfulForm:mapStateToProps", state);
+  return {
+  };
+}
+
+// Defining mapDispatchToProps as plain object
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(SuccessfulForm));
