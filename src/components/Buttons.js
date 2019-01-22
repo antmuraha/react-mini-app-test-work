@@ -33,7 +33,7 @@ const styles = theme => ({
   }
 });
 
-class Footer extends React.Component<Props> {
+class Buttons extends React.Component<Props> {
   constructor(props) {
     super(props);
   }
@@ -105,8 +105,5 @@ export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Footer)
+  )(Buttons)
 );
-/*
-withStyles(styles)(Footer)
-*/

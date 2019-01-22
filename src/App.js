@@ -7,8 +7,9 @@ import "./App.css";
 
 import AppHistory from "./components/AppHistory";
 import Progress from "./components/Progress";
-import Footer from "./components/Footer";
 import Content from "./components/Content";
+
+import { PageContext } from "./components/context";
 
 class App extends React.Component<Props> {
   constructor(props) {
@@ -47,8 +48,9 @@ class App extends React.Component<Props> {
       <div className="App">
         <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
         <Progress pages={3} page={page} />
-        <Content />
-        <Footer page={page} />
+        <PageContext.Provider value={{ page }}>
+          <Content page={page} />
+        </PageContext.Provider>
         <AppHistory />
       </div>
     );

@@ -27,6 +27,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
+import { PageContext } from "./context";
+import Buttons from "./Buttons";
+
 const styles = theme => {
   console.log("THEME", theme);
   return {
@@ -318,7 +321,8 @@ class AboutmeForm extends React.Component {
       submitting,
       valid
     } = this.props;
-    console.log("77777777777", this.props);
+    const { page } = this.context;
+    console.log("77777777777", this.props,this.context);
     return (
       <form style={{ margin: 20 + "px" }}>
         <button onClick={onSubmit} />
@@ -340,10 +344,12 @@ class AboutmeForm extends React.Component {
           component={RenderSelectStyle}
           options={["Internet", "Friends", "Newspaper"]}
         />
+        <Buttons page={page} />
       </form>
     );
   }
 }
+AboutmeForm.contextType = PageContext;
 
 AboutmeForm = reduxForm({
   form: "aboutme",

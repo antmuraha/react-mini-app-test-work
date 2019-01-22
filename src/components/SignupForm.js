@@ -11,6 +11,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
+import { PageContext } from "./context";
+import Buttons from "./Buttons";
+
 const styles = theme => {
   //console.log("THEME", theme);
   return {
@@ -111,45 +114,51 @@ const RenderInputPassword = ({
 };
 const RenderInputPasswordStyle = withStyles(styles)(RenderInputPassword);
 
-let SignupForm = props => {
-  const {
-    error,
-    handleSubmit,
-    onSubmit,
-    pristine,
-    reset,
-    submitting,
-    valid
-  } = props;
-  console.log("FORM SIGN PROPS", props);
-  //props.handleSubmit();
-  if (!pristine && valid && props.password == props.confirm) {
-    console.log("SignupForm VALID");
+class SignupForm extends React.Component {
+  render() {
+    const {
+      error,
+      handleSubmit,
+      onSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid
+    } = this.props;
+    const { page } = this.context;
+    console.log("FORM SIGN PROPS", this.props, this.context);
+    //props.handleSubmit();
+    if (!pristine && valid && this.props.password == this.props.confirm) {
+      console.log("SignupForm VALID");
+    }
+    return (
+      <form style={{ margin: 20 + "px" }}>
+        <button onClick={onSubmit} />
+        <Field
+          name="MyClass.contextType = MyContext;email"
+          label="Email is required"
+          component={RenderInput}
+          validate={[required, isEmail]}
+        />
+        <Field
+          name="password"
+          label="Password"
+          component={RenderInputPasswordStyle}
+          validate={[required, isPassword]}
+        />
+        <Field
+          name="confirm"
+          label="Confirm password"
+          component={RenderInputPasswordStyle}
+          validate={[required, isConfirmPassword]}
+        />
+        <Buttons page={page} />
+      </form>
+    );
   }
-  return (
-    <form style={{ margin: 20 + "px" }}>
-      <button onClick={onSubmit} />
-      <Field
-        name="email"
-        label="Email is required"
-        component={RenderInput}
-        validate={[required, isEmail]}
-      />
-      <Field
-        name="password"
-        label="Password"
-        component={RenderInputPasswordStyle}
-        validate={[required, isPassword]}
-      />
-      <Field
-        name="confirm"
-        label="Confirm password"
-        component={RenderInputPasswordStyle}
-        validate={[required, isConfirmPassword]}
-      />
-    </form>
-  );
-};
+}
+
+SignupForm.contextType = PageContext;
 
 SignupForm = reduxForm({
   form: "signup",
