@@ -14,8 +14,15 @@ import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
 class SignupForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { nextDisabled: true };
+  }
+  componentWillMount() {
+    console.log("SignupForm::componentWillMount");
+  }
   componentDidMount() {
-    console.log("SignupForm::componentDidMount");
+    console.log("SignupForm::componentDidMount", this.props);
   }
   componentWillUnmount() {
     console.log("SignupForm::componentWillUnmount");
@@ -27,6 +34,7 @@ class SignupForm extends React.Component {
       prevState,
       snapshot
     );
+    this.isValidForm(this.props, "did");
   }
   componentWillUnmount() {
     console.log("SignupForm::componentWillUnmount");
@@ -38,8 +46,35 @@ class SignupForm extends React.Component {
       nextState,
       this.props
     );
+    this.isValidForm(nextProps, "should");
     // fix re-rendering form
     return false;
+  }
+  isValidForm(props, func) {
+    console.log(0, props);
+    if (!props.pristine && props.valid) {
+      console.log(1);
+      if (this.state.nextDisabled) {
+        console.log(2);
+        this.context.setValidDate(props.form, {
+          email: props.data_form.email,
+          password: props.data_form.password
+        });
+        this.setState((state, props) => {
+          return { nextDisabled: false };
+        });
+      }
+    } else {
+      console.log(3, this.state, props);
+      !this.state.nextDisabled &&
+        this.setState((state, props) => {
+          if (!state.nextDisabled) {
+            return { nextDisabled: true };
+          } else {
+            return {};
+          }
+        });
+    }
   }
   render() {
     const {
@@ -52,8 +87,8 @@ class SignupForm extends React.Component {
       valid,
       classes
     } = this.props;
-    const { page } = this.context;
-    console.log("SignupForm");
+    const { page, forms, setValidDate } = this.context;
+    console.log("SignupForm", this.props, this.context);
     //props.handleSubmit();
     if (!pristine && valid && this.props.password === this.props.confirm) {
       //console.log("SignupForm VALID");
@@ -78,7 +113,7 @@ class SignupForm extends React.Component {
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
-        <Buttons page={page} onSubmit={onSubmit} />
+        <Buttons page={page} disabled={this.state.nextDisabled} />
       </form>
     );
   }

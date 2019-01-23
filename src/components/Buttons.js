@@ -70,6 +70,7 @@ class Buttons extends React.PureComponent<Props> {
           color="primary"
           className={classes.button}
           onClick={onSubmit}
+          disabled={this.props.disabled}
         >
           Next
           <ArrowForward className={classes.extendedIcon} />

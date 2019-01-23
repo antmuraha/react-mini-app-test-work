@@ -20,14 +20,19 @@ class App extends React.Component<Props> {
   constructor(props) {
     super(props);
     //console.log(this.props);
-
     this.state = {
-      title: this.props.route === "successful" ? "Thank you!" : "Singup"
+      title: this.props.route === "successful" ? "Thank you!" : "Singup",
+      forms: {}
     };
+    this.setValidDate = this.setValidDate.bind(this);
   }
 
   getTitle() {
     return this.props.route === "successful" ? "Thank you!" : "Singup";
+  }
+
+  setValidDate(form, data) {
+    return this.setState({ forms: { [form]: data } });
   }
 
   numberPage(route) {
@@ -48,13 +53,16 @@ class App extends React.Component<Props> {
   }
   render() {
     const page = this.numberPage(this.props.route);
+    const forms = this.state.forms;
     // ? Why rendering Progress
     return (
       <BrowserRouter>
         <div className="App">
           <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
           <Progress pages={3} page={page} />
-          <PageContext.Provider value={{ page }}>
+          <PageContext.Provider
+            value={{ page, forms, setValidDate: this.setValidDate }}
+          >
             <Content />
           </PageContext.Provider>
           <AppHistory />

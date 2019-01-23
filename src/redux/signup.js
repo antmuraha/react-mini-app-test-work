@@ -1,5 +1,5 @@
 export default (state = {}, action) => {
-  //console.log("REDUCER SIGNUP", state, action);
+  console.log("REDUCER SIGNUP", state, action);
 
   if (!action.meta) {
     return state;

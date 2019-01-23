@@ -18,7 +18,6 @@ class RenderInputPassword extends React.PureComponent {
     let error = meta.error && meta.touched;
     return (
       <FormControl
-        {...input}
         margin="dense"
         className={classNames(classes.margin, classes.textField)}
         fullWidth
@@ -30,7 +29,7 @@ class RenderInputPassword extends React.PureComponent {
         >
           {label}
         </InputLabel>
-        <Input type="password" margin="dense" />
+        <Input {...input} type="password" margin="dense" />
         <FormHelperText className={classNames(error && classes.error)}>
           {error ? meta.error : ""}
         </FormHelperText>
