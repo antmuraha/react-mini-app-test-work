@@ -50,16 +50,16 @@ class App extends React.Component<Props> {
     const page = this.numberPage(this.props.route);
     // ? Why rendering Progress
     return (
-        <BrowserRouter>
-          <div className="App">
-            <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
-            <Progress pages={3} page={page} />
-            <PageContext.Provider value={{ page }}>
-              <Content page={page} />
-            </PageContext.Provider>
-            <AppHistory />
-          </div>
-        </BrowserRouter>
+      <BrowserRouter>
+        <div className="App">
+          <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
+          <Progress pages={3} page={page} />
+          <PageContext.Provider value={{ page }}>
+            <Content />
+          </PageContext.Provider>
+          <AppHistory />
+        </div>
+      </BrowserRouter>
     );
   }
 }

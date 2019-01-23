@@ -29,7 +29,7 @@ const styles = theme => ({
   }
 });
 
-class Buttons extends React.Component<Props> {
+class Buttons extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
   }

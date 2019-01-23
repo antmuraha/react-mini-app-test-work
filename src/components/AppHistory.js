@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { routingTo } from "../actions/history";
 
-class AppHistory extends React.Component {
+class AppHistory extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { redirect: false };

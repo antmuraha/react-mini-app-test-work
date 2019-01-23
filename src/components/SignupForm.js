@@ -14,6 +14,33 @@ import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
 class SignupForm extends React.Component {
+  componentDidMount() {
+    console.log("SignupForm::componentDidMount");
+  }
+  componentWillUnmount() {
+    console.log("SignupForm::componentWillUnmount");
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(
+      "SignupForm::componentDidUpdate",
+      prevProps,
+      prevState,
+      snapshot
+    );
+  }
+  componentWillUnmount() {
+    console.log("SignupForm::componentWillUnmount");
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      "SignupForm::shouldComponentUpdate",
+      nextProps,
+      nextState,
+      this.props
+    );
+    // fix re-rendering form
+    return false;
+  }
   render() {
     const {
       error,
@@ -26,15 +53,15 @@ class SignupForm extends React.Component {
       classes
     } = this.props;
     const { page } = this.context;
-   //console.log("FORM SIGN PROPS", this.props, this.context);
+    console.log("SignupForm");
     //props.handleSubmit();
     if (!pristine && valid && this.props.password === this.props.confirm) {
-     //console.log("SignupForm VALID");
+      //console.log("SignupForm VALID");
     }
     return (
       <form className={classNames(classes.form)}>
         <Field
-          name="MyClass.contextType = MyContext;email"
+          name="email"
           label="Email is required"
           component={RenderInput}
           validate={[required, isEmail]}
@@ -51,7 +78,7 @@ class SignupForm extends React.Component {
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
-        <Buttons page={page} onSubmit={onSubmit}/>
+        <Buttons page={page} onSubmit={onSubmit} />
       </form>
     );
   }

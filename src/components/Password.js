@@ -10,36 +10,32 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 import styles from "./styles";
 
-const RenderInputPassword = ({
-  input,
-  meta,
-  name,
-  label,
-  classes,
-  ...rest
-}) => {
-  //console.log("====", input, meta, label, classes);
+class RenderInputPassword extends React.PureComponent {
 
-  let error = meta.error && meta.touched;
-  return (
-    <FormControl
-      {...input}
-      margin="dense"
-      className={classNames(classes.margin, classes.textField)}
-      fullWidth
-      required
-    >
-      <InputLabel
-        htmlFor="adornment-password"
-        className={classNames(error && classes.error)}
+  render() {
+    console.log("RenderInputPassword");
+    const { input, meta, name, label, classes, ...rest } = this.props;
+    let error = meta.error && meta.touched;
+    return (
+      <FormControl
+        {...input}
+        margin="dense"
+        className={classNames(classes.margin, classes.textField)}
+        fullWidth
+        required
       >
-        {label}
-      </InputLabel>
-      <Input type="password" margin="dense" />
-      <FormHelperText className={classNames(error && classes.error)}>
-        {error ? meta.error : ""}
-      </FormHelperText>
-    </FormControl>
-  );
-};
+        <InputLabel
+          htmlFor="adornment-password"
+          className={classNames(error && classes.error)}
+        >
+          {label}
+        </InputLabel>
+        <Input type="password" margin="dense" />
+        <FormHelperText className={classNames(error && classes.error)}>
+          {error ? meta.error : ""}
+        </FormHelperText>
+      </FormControl>
+    );
+  }
+}
 export default withStyles(styles)(RenderInputPassword);

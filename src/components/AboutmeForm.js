@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  reduxForm,
-  formValueSelector,
-  Field,
-
-} from "redux-form";
+import { reduxForm, formValueSelector, Field } from "redux-form";
 import { connect } from "react-redux";
 
 import classNames from "classnames";
@@ -23,7 +18,13 @@ class AboutmeForm extends React.Component {
   constructor(props) {
     super(props);
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
+    // fix re-rendering form
+    return false;
+  }
   render() {
+    console.log("AboutmeForm");
     const {
       error,
       handleSubmit,
@@ -35,7 +36,7 @@ class AboutmeForm extends React.Component {
       classes
     } = this.props;
     const { page } = this.context;
-   //console.log("77777777777", this.props, this.context);
+    //console.log("77777777777", this.props, this.context);
     return (
       <form className={classNames(classes.form)}>
         <RenderFullDate
@@ -56,7 +57,7 @@ class AboutmeForm extends React.Component {
           component={RenderSelect}
           options={["Internet", "Friends", "Newspaper"]}
         />
-        <Buttons page={page} onSubmit={onSubmit}/>
+        <Buttons page={page} onSubmit={onSubmit} />
       </form>
     );
   }

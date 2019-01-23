@@ -13,7 +13,7 @@ import styles from "./styles";
 
 import { required, isInteger, date } from "./validate";
 
-class RenderFullDate extends React.Component {
+class RenderFullDate extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { error: "" };
