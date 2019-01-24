@@ -1,14 +1,15 @@
-Screenshots
+An example of a form with three screens.
 
-<img src="page_1.png"
-     alt="Singup"
+<img src="presentation_form.gif"
+     alt="Presentation form"
      style="width:30%" />
-<img src="page_2.png"
-      alt="About me"
-    style="width:30%" />
-<img src="page_3.png"
-    alt="Successful"
-    style="width:30%" />
+
+Stack:
+React.js
+redux-form
+react-route
+material-ui
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
