@@ -4,6 +4,8 @@ export default (state = {}, action) => {
     case "ROUTING": {
       return { ...state, route: action.route };
     }
+    
+    // no default
   }
   return state;
 };

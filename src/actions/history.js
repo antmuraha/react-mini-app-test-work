@@ -15,6 +15,7 @@ export function routingTo(href) {
       route = "successful";
       break;
     }
+    // no default
   }
   return {
     type: "ROUTING",

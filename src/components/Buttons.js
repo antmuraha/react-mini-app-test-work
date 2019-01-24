@@ -29,10 +29,7 @@ const styles = theme => ({
   }
 });
 
-class Buttons extends React.PureComponent<Props> {
-  constructor(props) {
-    super(props);
-  }
+class Buttons extends React.PureComponent {
   buttonNext() {
     if (this.props.page === 1) {
       return "/aboutme";

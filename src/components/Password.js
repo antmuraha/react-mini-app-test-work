@@ -11,10 +11,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import styles from "./styles";
 
 class RenderInputPassword extends React.PureComponent {
-
   render() {
-    console.log("RenderInputPassword");
-    const { input, meta, name, label, classes, ...rest } = this.props;
+   //console.log("RenderInputPassword");
+    const { input, meta, label, classes } = this.props;
     let error = meta.error && meta.touched;
     return (
       <FormControl

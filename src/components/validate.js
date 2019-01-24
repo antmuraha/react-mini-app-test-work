@@ -36,6 +36,8 @@ export const date = (value, allValues, props, name) => {
     case "y": {
       return date_y(value);
     }
+
+    // no default
   }
 };
 

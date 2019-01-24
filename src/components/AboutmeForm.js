@@ -1,6 +1,5 @@
 import React from "react";
-import { reduxForm, formValueSelector, Field } from "redux-form";
-import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -15,26 +14,17 @@ import RenderRadio from "./Radio";
 import RenderSelect from "./Select";
 
 class AboutmeForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   shouldComponentUpdate(nextProps, nextState) {
-    console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
+   //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
     // fix re-rendering form
+    if (nextProps.valid !== this.props.valid) {
+      return true;
+    }
     return false;
   }
   render() {
-    console.log("AboutmeForm");
-    const {
-      error,
-      handleSubmit,
-      onSubmit,
-      pristine,
-      reset,
-      submitting,
-      valid,
-      classes
-    } = this.props;
+   //console.log("AboutmeForm");
+    const { classes } = this.props;
     const { page } = this.context;
     //console.log("77777777777", this.props, this.context);
     return (
@@ -57,7 +47,7 @@ class AboutmeForm extends React.Component {
           component={RenderSelect}
           options={["Internet", "Friends", "Newspaper"]}
         />
-        <Buttons page={page} onSubmit={onSubmit} />
+        <Buttons page={page} disabled={!this.props.valid} />
       </form>
     );
   }
@@ -75,13 +65,6 @@ AboutmeForm = reduxForm({
     gender: false,
     where: false
   }
-  //validate
-})(AboutmeForm);
-
-const selector = formValueSelector("aboutme");
-AboutmeForm = connect(state => {
-  const values = selector(state, "d", "m", "y", "gender", "where");
-  return { data_form: values };
 })(AboutmeForm);
 
 export default AboutmeForm;

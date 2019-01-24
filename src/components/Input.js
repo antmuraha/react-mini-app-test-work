@@ -8,25 +8,26 @@ import styles from "./styles";
 
 class RenderInput extends React.Component {
   shouldComponentUpdate(nextProps, nextState, context) {
-    console.log(
+   /*console.log(
       "RenderInput::shouldComponentUpdate",
       nextProps,
       nextState,
       context
     );
+    */
     // fix re-rendering
     if (
-      nextProps.input.value != this.props.input.value ||
-      nextProps.meta.error != this.props.meta.error ||
-      nextProps.meta.active != this.props.meta.active
+      nextProps.input.value !== this.props.input.value ||
+      nextProps.meta.error !== this.props.meta.error ||
+      nextProps.meta.active !== this.props.meta.active
     ) {
       return true;
     }
     return false;
   }
   render() {
-    console.log("RenderInput");
-    const { input, meta, name, label, ...rest } = this.props;
+   //console.log("RenderInput");
+    const { input, meta, label } = this.props;
     let error = meta.error && meta.touched && meta.error;
     return (
       <TextField
@@ -37,6 +38,7 @@ class RenderInput extends React.Component {
         fullWidth
         required
         helperText={error}
+        className={classNames()}
       />
     );
   }

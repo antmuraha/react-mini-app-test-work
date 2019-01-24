@@ -1,11 +1,7 @@
 import React from "react";
-
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-
 import { connect } from "react-redux";
 
-import initStore from "./redux/initStore";
 import "./App.css";
 
 import AppHistory from "./components/AppHistory";
@@ -14,25 +10,17 @@ import Content from "./components/Content";
 
 import { PageContext } from "./components/context";
 
-const store = initStore();
-
 class App extends React.Component<Props> {
   constructor(props) {
     super(props);
     //console.log(this.props);
     this.state = {
-      title: this.props.route === "successful" ? "Thank you!" : "Singup",
-      forms: {}
+      title: this.getTitle()
     };
-    this.setValidDate = this.setValidDate.bind(this);
   }
 
   getTitle() {
     return this.props.route === "successful" ? "Thank you!" : "Singup";
-  }
-
-  setValidDate(form, data) {
-    return this.setState({ forms: { [form]: data } });
   }
 
   numberPage(route) {

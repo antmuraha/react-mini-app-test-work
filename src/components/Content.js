@@ -6,7 +6,7 @@ import SuccessfulForm from "./SuccessfulForm";
 
 class Content extends React.PureComponent {
   render() {
-    console.log("Content");
+   //console.log("Content");
     return (
       <React.Fragment>
         <Switch>

@@ -34,11 +34,33 @@ const styles = theme => ({
 });
 
 class SuccessfulForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onPress = this.onPress.bind(this);
+  }
+  prepareData() {
+    let d = this.props.forms;
+    return {
+      user_date: {
+        email: d.signup.values.email,
+        password: d.signup.values.password,
+        data_of_birth: `${d.aboutme.values.d}/${d.aboutme.values.m}/${
+          d.aboutme.values.y
+        }`, // !!! convert to number format
+        gender: d.aboutme.values.gender,
+        how_hear_about_us:
+          typeof d.aboutme.values.where !== "number"
+            ? null
+            : d.aboutme.values.where
+      }
+    };
+  }
   onPress() {
-    alert("successful");
+    console.info("Successful", this.prepareData());
+    alert("Successful. You look logs.");
   }
   render() {
-    console.log("SuccessfulForm");
+   //console.log("SuccessfulForm", this.props);
     const { classes } = this.props;
     return (
       <div className={classes.content}>
@@ -66,7 +88,9 @@ class SuccessfulForm extends React.Component {
 
 function mapStateToProps(state) {
   //console.log("SuccessfulForm:mapStateToProps", state);
-  return {};
+  return {
+    forms: state.form
+  };
 }
 
 // Defining mapDispatchToProps as plain object
