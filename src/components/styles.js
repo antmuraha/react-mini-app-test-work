@@ -51,6 +51,10 @@ export default theme => {
       display: "flex",
       "border-radius": "5px"
       //  padding: "2px"
+    },
+    toggleButton: {
+      // fix not active area
+      "pointer-events": "none"
     }
   };
 };

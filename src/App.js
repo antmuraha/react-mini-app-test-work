@@ -23,7 +23,8 @@ class App extends React.Component<Props> {
     return this.props.route === "successful" ? "Thank you!" : "Singup";
   }
 
-  numberPage(route) {
+  numberPage() {
+    let { route } = this.props;
     switch (route) {
       case "signup": {
         return 1;
@@ -40,17 +41,14 @@ class App extends React.Component<Props> {
     }
   }
   render() {
-    const page = this.numberPage(this.props.route);
-    const forms = this.state.forms;
+    const page = this.numberPage();
     // ? Why rendering Progress
     return (
       <BrowserRouter>
         <div className="App">
           <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
           <Progress pages={3} page={page} />
-          <PageContext.Provider
-            value={{ page, forms, setValidDate: this.setValidDate }}
-          >
+          <PageContext.Provider value={{ page }}>
             <Content />
           </PageContext.Provider>
           <AppHistory />

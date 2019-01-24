@@ -89,9 +89,9 @@ SignupForm = reduxForm({
   form: "signup",
   destroyOnUnmount: false,
   initialValues: {
-    email: "",
-    password: "",
-    confirm: ""
+    email: "test@mysite.com",
+    password: "111111",
+    confirm: "111111"
   }
 })(SignupForm);
 
