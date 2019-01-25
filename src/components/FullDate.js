@@ -18,18 +18,28 @@ class RenderFullDate extends React.PureComponent {
     super(props);
     this.state = { error: "" };
     this.setError = this.setError.bind(this);
+    this.setActive = this.setActive.bind(this);
   }
 
   setError(text) {
     this.setState({ error: text });
   }
+  setActive(text) {
+    this.setState({ active: text });
+  }
 
   render() {
-    //console.log("====FILDS_1", this.props);
+    console.log("====FILDS_1", this.props);
     const { classes } = this.props;
     return (
       <FormControl fullWidth required>
-        <InputLabel className={classNames(classes.formControl)}>
+        <InputLabel
+          className={classNames(
+            classes.formControl,
+            this.state.active && classes.active,
+            this.state.error && classes.error
+          )}
+        >
           Date of birth
         </InputLabel>
         <div className={classes.date}>
@@ -37,7 +47,7 @@ class RenderFullDate extends React.PureComponent {
             name="d"
             component={RenderDate}
             placeholder="DD"
-            props={{ setError: this.setError }}
+            props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}
           />
@@ -45,7 +55,7 @@ class RenderFullDate extends React.PureComponent {
             name="m"
             component={RenderDate}
             placeholder="MM"
-            props={{ setError: this.setError }}
+            props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}
           />
@@ -53,7 +63,7 @@ class RenderFullDate extends React.PureComponent {
             name="y"
             component={RenderDate}
             placeholder="YY"
-            props={{ setError: this.setError }}
+            props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}
           />
