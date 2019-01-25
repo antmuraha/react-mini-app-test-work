@@ -1,27 +1,37 @@
 export default theme => {
   //console.log("THEME", theme);
   return {
+    app: {
+      "text-align": "center",
+      display: "flex",
+      "flex-flow": "column",
+      "align-items": "stretch",
+      "align-content": "stretch",
+      height: "100%",
+      "border-color": theme.palette.primary[theme.palette.type],
+      "border-width": "2px",
+      "border-style": "solid",
+      "border-radius": "10px"
+    },
+    title: {
+      "font-weight": 400,
+      color: theme.palette.primary[theme.palette.type]
+    },
+    buttonTheme: { flex: "1 1 auto" },
     form: {
       display: "flex",
       "flex-direction": "column",
       margin: "20px",
       height: "100%"
     },
-    margin: {
-      //margin: theme.spacing.unit
-    },
-    withoutLabel: {
-      marginTop: theme.spacing.unit * 3
-    },
-    textField: {
-      //flexBasis: 200
-    },
-    error: { color: theme.palette.error.main },
+    textField: {},
+    error: { color: theme.palette.error.main + " !important" },
+    active: { color: theme.palette.primary[theme.palette.type] },
     formControl: {
       position: "relative",
       transform: "none",
       "text-transform": "uppercase",
-      "font-size": "0.85rem",
+      "font-size": theme.typography.caption.fontSize,
       "margin-top": "20px",
       "letter-spacing": "-1px"
     },
@@ -30,24 +40,32 @@ export default theme => {
       "min-width": 0,
       border: 0,
       //padding: "4px",
-      color: "rgba(0, 0, 0, 0.54)",
-      "border-color": "rgba(0, 0, 0, 0.54)",
+      color: theme.typography.caption.color,
+      "border-color": theme.palette.text.secondary,
       "border-radius": "5px",
       "text-align": "center",
-      "font-size": "0.875rem",
+      "font-size": theme.typography.caption.fontSize,
       height: "28px",
       "&:hover": {
         "text-decoration": "none",
-        "background-color": "rgba(0, 0, 0, 0.12)"
+        "background-color": theme.palette.action.disabledBackground
       }
+    },
+    focusedDate: {
+      outline: "2px solid " + theme.palette.primary[theme.palette.type],
+      "outline-radius": "5px",
+      "box-shadow": theme.shadows[3],
+      "z-index": 2,
+      "border-color": "rgba(0,0,0,0) !important",
+      "background-color": theme.palette.common.white + " !important"
     },
     inputMiddle: {
       "border-width": "0px 1px",
-      "border-color": "rgba(0, 0, 0, 0.54)",
+      "border-color": theme.palette.text.secondary,
       "border-style": "solid"
     },
     date: {
-      border: "1px solid rgba(0, 0, 0, 0.54)",
+      border: "1px solid " + theme.palette.text.secondary,
       display: "flex",
       "border-radius": "5px"
       //  padding: "2px"

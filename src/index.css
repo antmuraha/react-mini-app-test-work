@@ -26,7 +26,7 @@ code {
 #root{
   width: 300px;
   height: 500px;
-  border: 1px solid gray;
+  border: 0px solid gray;
   border-radius: 5px;
   order: 0;
   flex: 0 1 auto;

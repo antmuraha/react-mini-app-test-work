@@ -12,13 +12,13 @@ const styles = theme => ({
   fab: {
     display: "flex",
     margin: theme.spacing.unit,
-    background: "green",
+    background: theme.palette.primary.main,
     width: "100px",
     height: "100px"
   },
   doneIcon: {
     marginRight: theme.spacing.unit,
-    color: "white"
+    color: theme.palette.getContrastText(theme.palette.primary.main)
   },
   content: {
     display: "flex",

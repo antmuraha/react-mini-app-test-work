@@ -12,7 +12,6 @@ const styles = {
 class LinearDeterminate extends React.PureComponent {
   constructor(props) {
     super(props);
-    //alert(this.props.page);
     this.state = {
       completed: this.calc()
     };
