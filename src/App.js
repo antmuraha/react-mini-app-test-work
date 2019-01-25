@@ -2,7 +2,10 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import "./App.css";
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+
+import styles from "./components/styles";
 
 import AppHistory from "./components/AppHistory";
 import Progress from "./components/Progress";
@@ -10,7 +13,7 @@ import Content from "./components/Content";
 
 import { PageContext } from "./components/context";
 
-class App extends React.Component<Props> {
+class App extends React.Component {
   constructor(props) {
     super(props);
     //console.log(this.props);
@@ -42,11 +45,11 @@ class App extends React.Component<Props> {
   }
   render() {
     const page = this.numberPage();
-    // ? Why rendering Progress
+    const { classes } = this.props;
     return (
       <BrowserRouter>
-        <div className="App">
-          <h3 style={{ fontWeight: 200 }}>{this.getTitle()}</h3>
+        <div className={classes.app}>
+          <h3 className={classes.title}>{this.getTitle()}</h3>
           <Progress pages={3} page={page} />
           <PageContext.Provider value={{ page }}>
             <Content />
@@ -77,7 +80,9 @@ function mapDispatchToProps(dispatch) {
 }
 */
 
-export default connect(
+App = connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);
+
+export default withStyles(styles)(App);

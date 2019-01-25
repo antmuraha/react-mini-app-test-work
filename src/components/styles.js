@@ -1,6 +1,23 @@
 export default theme => {
   //console.log("THEME", theme);
   return {
+    app: {
+      "text-align": "center",
+      display: "flex",
+      "flex-flow": "column",
+      "align-items": "stretch",
+      "align-content": "stretch",
+      height: "100%",
+      "border-color": theme.palette.primary[theme.palette.type],
+      "border-width": "2px",
+      "border-style": "solid",
+      "border-radius": "10px"
+    },
+    title: {
+      "font-weight": 400,
+      color: theme.palette.primary[theme.palette.type]
+    },
+    buttonTheme: { flex: "1 1 auto" },
     form: {
       display: "flex",
       "flex-direction": "column",
@@ -8,7 +25,7 @@ export default theme => {
       height: "100%"
     },
     textField: {},
-    error: { color: theme.palette.error.main+" !important" },
+    error: { color: theme.palette.error.main + " !important" },
     active: { color: theme.palette.primary[theme.palette.type] },
     formControl: {
       position: "relative",

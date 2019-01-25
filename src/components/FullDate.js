@@ -29,7 +29,7 @@ class RenderFullDate extends React.PureComponent {
   }
 
   render() {
-    console.log("====FILDS_1", this.props);
+    //console.log("====FILDS_1", this.props);
     const { classes } = this.props;
     return (
       <FormControl fullWidth required>

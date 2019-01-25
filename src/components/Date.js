@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "./styles";
 
 const RenderDate = props => {
-  console.log("====FILDS_2", props);
+  //console.log("====FILDS_2", props);
   const classes = props.classes;
   if (props.meta.touched && props.meta.error) {
     props.setError(props.meta.error);
