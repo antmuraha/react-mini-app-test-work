@@ -20,31 +20,48 @@ export const isConfirmPassword = (value, allValues, props, name) => {
   }
 };
 
-export const isInteger = (value, allValues, props, name) => {
+export const isNumberInt = (value, allValues, props, name) => {
   if (/[^0-9]/g.test(value)) {
     return "Should be a number";
   }
 };
 
 export const date = (value, allValues, props, name) => {
+  let text_error;
   switch (name) {
     case "d": {
-      return date_d(value);
+      break;
     }
     case "m": {
-      return date_m(value);
+      text_error = date_m(value);
+      break;
     }
     case "y": {
-      return date_y(value);
+      text_error = date_y(value);
+      break;
     }
-
     // no default
   }
+  if (allValues.m && allValues.y && !text_error) {
+    let ds = daysOfMonth(allValues.m, allValues.y);
+    text_error = date_d(allValues.d, ds);
+  }
+  return text_error;
 };
 
-const date_d = value => {
-  if (parseInt(value) < 1 || parseInt(value) > 31) {
-    return "Day should be in the range of 1 to 31";
+const isInteger = num => {
+  return (num ^ 0) === num;
+};
+
+const daysOfMonth = (month, year) => {
+  let d02 = isInteger(year / 4) ? 29 : 28;
+  let ds = [31, d02, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return ds[parseInt(month) - 1];
+};
+
+const date_d = (value, days) => {
+  if (parseInt(value) < 1 || parseInt(value) > days) {
+    return "Day should be in the range of 1 to " + days;
   }
 };
 const date_m = value => {

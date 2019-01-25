@@ -11,7 +11,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import RenderDate from "./Date";
 import styles from "./styles";
 
-import { required, isInteger, date, age } from "./validate";
+import { required, isNumberInt, date, age } from "./validate";
 
 class RenderFullDate extends React.PureComponent {
   constructor(props) {
@@ -39,7 +39,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="DD"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date, age]}
+            validate={[required, isNumberInt, date, age]}
           />
           <Field
             name="m"
@@ -47,7 +47,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="MM"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date, age]}
+            validate={[required, isNumberInt, date, age]}
           />
           <Field
             name="y"
@@ -55,7 +55,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="YY"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date, age]}
+            validate={[required, isNumberInt, date, age]}
           />
         </div>
         <FormHelperText className={this.state.error && classes.error}>
