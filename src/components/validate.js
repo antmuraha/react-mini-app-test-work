@@ -25,6 +25,7 @@ export const isInteger = (value, allValues, props, name) => {
     return "Should be a number";
   }
 };
+
 export const date = (value, allValues, props, name) => {
   switch (name) {
     case "d": {
@@ -55,5 +56,34 @@ const date_y = value => {
   let d = new Date().getFullYear();
   if (parseInt(value) < 1800 || parseInt(value) > d) {
     return "Year should be in the range of 1800 to " + d;
+  }
+};
+
+export const age = (value, allValues, props, name) => {
+  if (!allValues.d || !allValues.m || !allValues.y) {
+    return undefined;
+  }
+  const dateFullNow = new Date();
+  const dateNow = dateFullNow.getDate();
+  const monthNow = dateFullNow.getMonth() + 1;
+  const yearNow = dateFullNow.getFullYear();
+  const date = parseInt(allValues.d);
+  const month = parseInt(allValues.m);
+  const year = parseInt(allValues.y);
+
+  const text_error = "You're not 18 yet";
+
+  if (yearNow - year < 18) {
+    return text_error;
+  }
+  if (yearNow - year === 18) {
+    if (monthNow < month) {
+      return text_error;
+    }
+    if (monthNow === month) {
+      if (dateNow < date) {
+        return text_error;
+      }
+    }
   }
 };

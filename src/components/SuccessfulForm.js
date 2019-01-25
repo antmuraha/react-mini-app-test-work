@@ -40,13 +40,16 @@ class SuccessfulForm extends React.Component {
   }
   prepareData() {
     let d = this.props.forms;
+    let date = new Date(
+      d.aboutme.values.y,
+      d.aboutme.values.m,
+      d.aboutme.values.d
+    ).getTime();
     return {
       user_date: {
         email: d.signup.values.email,
         password: d.signup.values.password,
-        data_of_birth: `${d.aboutme.values.d}/${d.aboutme.values.m}/${
-          d.aboutme.values.y
-        }`, // !!! convert to number format
+        date_of_birth: date,
         gender: d.aboutme.values.gender,
         how_hear_about_us:
           typeof d.aboutme.values.where !== "number"
@@ -60,7 +63,7 @@ class SuccessfulForm extends React.Component {
     alert("Successful. You look logs.");
   }
   render() {
-   //console.log("SuccessfulForm", this.props);
+    //console.log("SuccessfulForm", this.props);
     const { classes } = this.props;
     return (
       <div className={classes.content}>

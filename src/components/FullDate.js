@@ -11,7 +11,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import RenderDate from "./Date";
 import styles from "./styles";
 
-import { required, isInteger, date } from "./validate";
+import { required, isInteger, date, age } from "./validate";
 
 class RenderFullDate extends React.PureComponent {
   constructor(props) {
@@ -20,28 +20,12 @@ class RenderFullDate extends React.PureComponent {
     this.setError = this.setError.bind(this);
   }
 
-  fields() {
-    return this.props.names.map((value, index) => {
-     //console.log("===MAP", this.props, value, index);
-      return (
-        <Field
-          name={value}
-          component={RenderDate}
-          placeholder={this.props.placeholders[index]}
-          key={index}
-          setError={this.setError}
-          validate={[required, date]}
-        />
-      );
-    });
-  }
-
   setError(text) {
     this.setState({ error: text });
   }
 
   render() {
-   //console.log("====FILDS_1", this.props);
+    //console.log("====FILDS_1", this.props);
     const { classes } = this.props;
     return (
       <FormControl fullWidth required>
@@ -55,7 +39,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="DD"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date]}
+            validate={[required, isInteger, date, age]}
           />
           <Field
             name="m"
@@ -63,7 +47,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="MM"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date]}
+            validate={[required, isInteger, date, age]}
           />
           <Field
             name="y"
@@ -71,7 +55,7 @@ class RenderFullDate extends React.PureComponent {
             placeholder="YY"
             props={{ setError: this.setError }}
             //setError={this.setError}
-            validate={[required, isInteger, date]}
+            validate={[required, isInteger, date, age]}
           />
         </div>
         <FormHelperText className={this.state.error && classes.error}>
