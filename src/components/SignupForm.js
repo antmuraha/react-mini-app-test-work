@@ -1,5 +1,6 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
+import { connect } from "react-redux";
+import { reduxForm, Field, formValueSelector } from "redux-form";
 
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import { PageContext } from "./context";
 import Buttons from "./Buttons";
 import RenderInput from "./Input";
 import RenderInputPassword from "./Password";
+import RememberMe from "./RememberMe";
 
 import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
@@ -22,7 +24,8 @@ class SignupForm extends React.Component {
     //console.log("SignupForm::componentWillMount");
   }
   componentDidMount() {
-    //console.log("SignupForm::componentDidMount", this.props);
+    console.log("SignupForm::componentDidMount", this.props);
+    this.props.change("remember",true);
   }
   componentWillUnmount() {
     //console.log("SignupForm::componentWillUnmount");
@@ -77,6 +80,7 @@ class SignupForm extends React.Component {
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
+        <Field name="remember" label="Remember Me" component={RememberMe} />
         <Buttons page={page} disabled={!this.props.valid} />
       </form>
     );
@@ -93,6 +97,18 @@ SignupForm = reduxForm({
     password: "111111",
     confirm: "111111"
   }
+})(SignupForm);
+
+// Decorate with connect to read form values
+const selector = formValueSelector("signup"); // <-- same as form name
+SignupForm = connect(state => {
+  // can select values individually
+
+  const remember = selector(state, "remember");
+  console.log("CONNECT", state, remember);
+  return {
+    remember
+  };
 })(SignupForm);
 
 export default SignupForm;

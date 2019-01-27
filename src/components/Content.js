@@ -6,9 +6,6 @@ import SuccessfulForm from "./SuccessfulForm";
 import MotionFade from "./MotionFade";
 
 class Content extends React.PureComponent {
-  shouldComponentUpdate(nextProps, nextState) {
-    return false;
-  }
   render() {
     //console.log("Content");
     return (

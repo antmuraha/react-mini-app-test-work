@@ -12,10 +12,11 @@ import { required } from "./validate";
 import RenderFullDate from "./FullDate";
 import RenderRadio from "./Radio";
 import RenderSelect from "./Select";
+import RememberMe from "./RememberMe";
 
 class AboutmeForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-   //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
+    //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
     // fix re-rendering form
     if (nextProps.valid !== this.props.valid) {
       return true;
@@ -23,7 +24,7 @@ class AboutmeForm extends React.Component {
     return false;
   }
   render() {
-   //console.log("AboutmeForm");
+    //console.log("AboutmeForm");
     const { classes } = this.props;
     const { page } = this.context;
     //console.log("77777777777", this.props, this.context);
