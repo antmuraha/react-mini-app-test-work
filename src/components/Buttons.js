@@ -7,6 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 import ArrowForward from "@material-ui/icons/ArrowForward";
 
+import { MotionContext } from "./MotionFade";
+
 const styles = theme => ({
   nav: {
     display: "flex",
@@ -45,7 +47,7 @@ class Buttons extends React.PureComponent {
     let buttonHidden = { opacity: 0, pointerEvents: "none" };
 
     //console.log("Render Footer");
-    const { classes, onSubmit } = this.props;
+    const { classes } = this.props;
     return (
       <nav className={classes.nav}>
         <Button
@@ -56,6 +58,7 @@ class Buttons extends React.PureComponent {
           to="/"
           color="primary"
           className={classes.button}
+          onClick={this.context.startMotion}
         >
           Back
         </Button>
@@ -66,7 +69,7 @@ class Buttons extends React.PureComponent {
           to={this.buttonNext()}
           color="primary"
           className={classes.button}
-          onClick={onSubmit}
+          onClick={this.context.startMotion}
           disabled={this.props.disabled}
         >
           Next
@@ -76,6 +79,7 @@ class Buttons extends React.PureComponent {
     );
   }
 }
+Buttons.contextType = MotionContext;
 
 function mapStateToProps(state) {
   //console.log("Footer:mapStateToProps", state);

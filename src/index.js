@@ -13,7 +13,9 @@ const store = initStore();
 
 render(
   <Provider store={store}>
-    <WithTheme App={App} />
+    <WithTheme>
+      <App />
+    </WithTheme>
   </Provider>,
   document.getElementById("root")
 );

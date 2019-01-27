@@ -55,11 +55,11 @@ class WithTheme extends React.Component {
     );
   }
   render() {
-    const { App, classes } = this.props;
+    const { classes } = this.props;
     return (
       <MuiThemeProvider theme={this.createTheme()}>
         <React.Fragment>
-          <App />
+          {this.props.children}
           <button className={classes.buttonTheme} onClick={this.switchTheme}>
             THEME
           </button>
