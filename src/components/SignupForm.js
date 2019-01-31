@@ -1,13 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 
-import { PageContext } from "./context";
+import { FormsContext } from "./context";
 import Buttons from "./Buttons";
 import RenderInput from "./Input";
 import RenderInputPassword from "./Password";
+import RememberMe from "./RememberMe";
 
 import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
@@ -16,13 +18,13 @@ class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { nextDisabled: true };
-    this.next = "asdasd";
   }
   componentWillMount() {
     //console.log("SignupForm::componentWillMount");
   }
+
   componentDidMount() {
-    //console.log("SignupForm::componentDidMount", this.props);
+    this.context.initDataFromStorage(this.props.dispatch);
   }
   componentWillUnmount() {
     //console.log("SignupForm::componentWillUnmount");
@@ -54,9 +56,8 @@ class SignupForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { page } = this.context;
-    ////console.log("SignupForm", this.props, this.context);
+    const { classes, buttonNext, buttonBack } = this.props;
+    const { saveToStorage } = this.context;
     return (
       <form className={classNames(classes.form)}>
         <Field
@@ -77,12 +78,22 @@ class SignupForm extends React.Component {
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
-        <Buttons page={page} disabled={!this.props.valid} />
+        <Field
+          name="remember"
+          label="Remember Me"
+          component={RememberMe}
+          onChange={event => saveToStorage(event)}
+        />
+        <Buttons
+          buttonBack={buttonBack}
+          buttonNext={buttonNext}
+          disabled={!this.props.valid}
+        />
       </form>
     );
   }
 }
-SignupForm.contextType = PageContext;
+SignupForm.contextType = FormsContext;
 SignupForm = withStyles(styles)(SignupForm);
 
 SignupForm = reduxForm({
@@ -93,6 +104,11 @@ SignupForm = reduxForm({
     password: "111111",
     confirm: "111111"
   }
+})(SignupForm);
+
+// Pass dispatch to props
+SignupForm = connect((state, ownProps) => {
+  return { state };
 })(SignupForm);
 
 export default SignupForm;

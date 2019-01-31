@@ -4,7 +4,7 @@ import { reduxForm, Field } from "redux-form";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 
-import { PageContext } from "./context";
+import { FormsContext } from "./context";
 import Buttons from "./Buttons";
 import styles from "./styles";
 import { required } from "./validate";
@@ -12,10 +12,11 @@ import { required } from "./validate";
 import RenderFullDate from "./FullDate";
 import RenderRadio from "./Radio";
 import RenderSelect from "./Select";
+import RememberMe from "./RememberMe";
 
 class AboutmeForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-   //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
+    //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
     // fix re-rendering form
     if (nextProps.valid !== this.props.valid) {
       return true;
@@ -23,9 +24,9 @@ class AboutmeForm extends React.Component {
     return false;
   }
   render() {
-   //console.log("AboutmeForm");
-    const { classes } = this.props;
-    const { page } = this.context;
+    //console.log("AboutmeForm");
+    const { classes, buttonNext, buttonBack } = this.props;
+    const { saveToStorage } = this.context;
     //console.log("77777777777", this.props, this.context);
     return (
       <form className={classNames(classes.form)}>
@@ -47,24 +48,27 @@ class AboutmeForm extends React.Component {
           component={RenderSelect}
           options={["Internet", "Friends", "Newspaper"]}
         />
-        <Buttons page={page} disabled={!this.props.valid} />
+        <Field
+          name="remember"
+          label="Remember Me"
+          component={RememberMe}
+          onChange={event => saveToStorage(event)}
+        />
+        <Buttons
+          buttonBack={buttonBack}
+          buttonNext={buttonNext}
+          disabled={!this.props.valid}
+        />
       </form>
     );
   }
 }
-AboutmeForm.contextType = PageContext;
+AboutmeForm.contextType = FormsContext;
 AboutmeForm = withStyles(styles)(AboutmeForm);
 
 AboutmeForm = reduxForm({
   form: "aboutme",
-  destroyOnUnmount: false,
-  initialValues: {
-    d: "",
-    m: "",
-    y: "",
-    gender: false,
-    where: false
-  }
+  destroyOnUnmount: false
 })(AboutmeForm);
 
 export default AboutmeForm;

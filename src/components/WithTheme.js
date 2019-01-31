@@ -7,14 +7,11 @@ import styles from "./styles";
 
 import {
   MuiThemeProvider,
-  createMuiTheme,
-  createGenerateClassName
+  createMuiTheme
 } from "@material-ui/core/styles";
 import { withTheme } from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
-import red from "@material-ui/core/colors/red";
 import indigo from "@material-ui/core/colors/indigo";
-import pink from "@material-ui/core/colors/pink";
 
 class WithTheme extends React.Component {
   constructor(props) {

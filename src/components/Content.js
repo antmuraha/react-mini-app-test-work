@@ -6,17 +6,20 @@ import SuccessfulForm from "./SuccessfulForm";
 import MotionFade from "./MotionFade";
 
 class Content extends React.PureComponent {
-  shouldComponentUpdate(nextProps, nextState) {
-    return false;
-  }
   render() {
+    const Signup = props => (
+      <SignupForm {...props} buttonNext="/aboutme" buttonBack={false} />
+    );
+    const Aboutme = props => (
+      <AboutmeForm {...props} buttonNext="/successful" buttonBack="/" />
+    );
     //console.log("Content");
     return (
       <React.Fragment>
         <MotionFade>
           <Switch>
-            <Route exact path="/" component={SignupForm} />
-            <Route exact path="/aboutme" component={AboutmeForm} />
+            <Route exact path="/" component={Signup} />
+            <Route exact path="/aboutme" component={Aboutme} />
             <Route exact path="/successful" component={SuccessfulForm} />
           </Switch>
         </MotionFade>
