@@ -32,30 +32,17 @@ const styles = theme => ({
 });
 
 class Buttons extends React.PureComponent {
-  buttonNext() {
-    if (this.props.page === 1) {
-      return "/aboutme";
-    } else {
-      if (this.props.page === 2) {
-        return "successful";
-      } else {
-        return "/";
-      }
-    }
-  }
   render() {
     let buttonHidden = { opacity: 0, pointerEvents: "none" };
 
-    //console.log("Render Footer");
-    const { classes } = this.props;
+    //console.log("Render Footer", this.props);
+    const { classes, buttonNext, buttonBack } = this.props;
     return (
       <nav className={classes.nav}>
         <Button
-          style={
-            this.props.page === 1 || this.props.page === 3 ? buttonHidden : {}
-          }
+          style={!buttonBack ? buttonHidden : {}}
           component={Link}
-          to="/"
+          to={buttonBack ? buttonBack : ""}
           color="primary"
           className={classes.button}
           onClick={this.context.startMotion}
@@ -64,9 +51,9 @@ class Buttons extends React.PureComponent {
         </Button>
 
         <Button
-          style={this.props.page === 3 ? buttonHidden : {}}
+          style={!buttonNext ? buttonHidden : {}}
           component={Link}
-          to={this.buttonNext()}
+          to={buttonNext ? buttonNext : ""}
           color="primary"
           className={classes.button}
           onClick={this.context.startMotion}

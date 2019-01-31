@@ -1,5 +1,5 @@
 import React from "react";
-import { Motion, TransitionMotion, spring } from "react-motion";
+import { Motion, spring } from "react-motion";
 
 export const MotionContext = React.createContext("page");
 

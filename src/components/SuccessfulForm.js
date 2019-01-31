@@ -90,7 +90,7 @@ class SuccessfulForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //console.log("SuccessfulForm:mapStateToProps", state);
+  console.log("SuccessfulForm:mapStateToProps", state);
   return {
     forms: state.form
   };
