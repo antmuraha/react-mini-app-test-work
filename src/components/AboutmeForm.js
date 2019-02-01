@@ -14,6 +14,8 @@ import RenderRadio from "./Radio";
 import RenderSelect from "./Select";
 import RememberMe from "./RememberMe";
 
+import { withNamespaces } from "react-i18next";
+
 class AboutmeForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
@@ -25,7 +27,7 @@ class AboutmeForm extends React.Component {
   }
   render() {
     //console.log("AboutmeForm");
-    const { classes, buttonNext, buttonBack } = this.props;
+    const { classes, buttonNext, buttonBack, t } = this.props;
     const { saveToStorage } = this.context;
     //console.log("77777777777", this.props, this.context);
     return (
@@ -33,25 +35,27 @@ class AboutmeForm extends React.Component {
         <RenderFullDate
           name="date"
           names={["d", "m", "y"]}
-          placeholders={["DD", "MM", "YYYY"]}
+          label={t("Date of birth")}
+          placeholders={[t("DD"), t("MM"), t("YYYY")]}
         />
         <Field
           name="gender"
-          label="Gender"
-          labels={["male", "female", "unspecified"]}
+          label={t("Gender")}
+          labels={[t("male"), t("female"), t("unspecified")]}
           component={RenderRadio}
           validate={[required]}
         />
         <Field
           name="where"
-          label="Where did you hear about is?"
+          label={t("Where did you hear about is?")}
           component={RenderSelect}
-          options={["Internet", "Friends", "Newspaper"]}
+          options={[t("Internet"), t("Friends"), t("Newspaper")]}
         />
         <Field
           name="remember"
-          label="Remember Me"
+          label={t("Remember Me")}
           component={RememberMe}
+          title={t("Save data to the locale storage")}
           onChange={event => saveToStorage(event)}
         />
         <Buttons
@@ -71,4 +75,4 @@ AboutmeForm = reduxForm({
   destroyOnUnmount: false
 })(AboutmeForm);
 
-export default AboutmeForm;
+export default withNamespaces()(AboutmeForm);

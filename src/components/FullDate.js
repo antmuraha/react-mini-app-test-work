@@ -30,7 +30,7 @@ class RenderFullDate extends React.PureComponent {
 
   render() {
     //console.log("====FILDS_1", this.props);
-    const { classes } = this.props;
+    const { classes, label, placeholders } = this.props;
     return (
       <FormControl fullWidth required>
         <InputLabel
@@ -40,13 +40,13 @@ class RenderFullDate extends React.PureComponent {
             this.state.error && classes.error
           )}
         >
-          Date of birth
+          {label}
         </InputLabel>
         <div className={classes.date}>
           <Field
             name="d"
             component={RenderDate}
-            placeholder="DD"
+            placeholder={placeholders[0]}
             props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}
@@ -54,7 +54,7 @@ class RenderFullDate extends React.PureComponent {
           <Field
             name="m"
             component={RenderDate}
-            placeholder="MM"
+            placeholder={placeholders[1]}
             props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}
@@ -62,7 +62,7 @@ class RenderFullDate extends React.PureComponent {
           <Field
             name="y"
             component={RenderDate}
-            placeholder="YY"
+            placeholder={placeholders[2]}
             props={{ setError: this.setError, setActive: this.setActive }}
             //setError={this.setError}
             validate={[required, isNumberInt, date, age]}

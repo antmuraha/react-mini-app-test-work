@@ -14,6 +14,8 @@ import RememberMe from "./RememberMe";
 import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
+import { withNamespaces } from "react-i18next";
+
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
@@ -56,32 +58,33 @@ class SignupForm extends React.Component {
   }
 
   render() {
-    const { classes, buttonNext, buttonBack } = this.props;
+    const { classes, buttonNext, buttonBack, t } = this.props;
     const { saveToStorage } = this.context;
     return (
       <form className={classNames(classes.form)}>
         <Field
           name="email"
-          label="Email is required"
+          label={t("Email is required")}
           component={RenderInput}
           validate={[required, isEmail]}
         />
         <Field
           name="password"
-          label="Password"
+          label={t("Password")}
           component={RenderInputPassword}
           validate={[required, isPassword]}
         />
         <Field
           name="confirm"
-          label="Confirm password"
+          label={t("Confirm password")}
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
         <Field
           name="remember"
-          label="Remember Me"
+          label={t("Remember Me")}
           component={RememberMe}
+          title={t("Save data to the locale storage")}
           onChange={event => saveToStorage(event)}
         />
         <Buttons
@@ -111,4 +114,4 @@ SignupForm = connect((state, ownProps) => {
   return { state };
 })(SignupForm);
 
-export default SignupForm;
+export default withNamespaces()(SignupForm);
