@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 
 import App from "./App";
 import WithTheme from "./components/WithTheme";
+import "./translation/i18n";
+import SwitchLocale from "./translation/SwitchLocale";
 import "./index.css";
 
 import * as serviceWorker from "./serviceWorker";
@@ -14,7 +16,7 @@ const store = initStore();
 render(
   <Provider store={store}>
     <WithTheme>
-      <App />
+      <SwitchLocale app={App} />
     </WithTheme>
   </Provider>,
   document.getElementById("root")

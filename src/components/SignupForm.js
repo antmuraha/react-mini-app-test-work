@@ -14,7 +14,9 @@ import RememberMe from "./RememberMe";
 import styles from "./styles";
 import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
-class SignupForm extends React.Component {
+import { withNamespaces } from "react-i18next";
+
+class SignupForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { nextDisabled: true };
@@ -39,49 +41,34 @@ class SignupForm extends React.Component {
     );
     */
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    /*
-   //console.log(
-      "SignupForm::shouldComponentUpdate",
-      nextProps,
-      nextState,
-      this.props
-    );
-    */
-    // fix re-rendering form
-    if (nextProps.valid !== this.props.valid) {
-      return true;
-    }
-    return false;
-  }
-
   render() {
-    const { classes, buttonNext, buttonBack } = this.props;
+    const { classes, buttonNext, buttonBack, t } = this.props;
     const { saveToStorage } = this.context;
     return (
       <form className={classNames(classes.form)}>
         <Field
           name="email"
-          label="Email is required"
+          label={t("Email is required")}
           component={RenderInput}
           validate={[required, isEmail]}
         />
         <Field
           name="password"
-          label="Password"
+          label={t("Password")}
           component={RenderInputPassword}
           validate={[required, isPassword]}
         />
         <Field
           name="confirm"
-          label="Confirm password"
+          label={t("Confirm password")}
           component={RenderInputPassword}
           validate={[required, isConfirmPassword]}
         />
         <Field
           name="remember"
-          label="Remember Me"
+          label={t("Remember Me")}
           component={RememberMe}
+          title={t("Save data to the locale storage")}
           onChange={event => saveToStorage(event)}
         />
         <Buttons
@@ -111,4 +98,4 @@ SignupForm = connect((state, ownProps) => {
   return { state };
 })(SignupForm);
 
-export default SignupForm;
+export default withNamespaces()(SignupForm);

@@ -5,13 +5,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 export default class RememberMe extends React.Component {
   render() {
-    const { label } = this.props;
+    const { label, title } = this.props;
     const { value, ...input } = this.props.input;
     return (
       <FormControlLabel
         control=<Checkbox checked={value} {...input} color="primary" />
         label={label}
-        title="Save data to the locale storage"
+        title={title}
       />
     );
   }

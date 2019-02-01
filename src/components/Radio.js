@@ -27,12 +27,12 @@ class RenderRadio extends React.Component {
     });
   }
   render() {
-    const { input, meta,classes } = this.props;
+    const { input, meta, classes, label } = this.props;
     const error = meta.error && meta.touched;
     return (
       <FormControl required fullWidth>
         <InputLabel className={classNames(classes.formControl)}>
-          Gender
+          {label}
         </InputLabel>
         <ToggleButtonGroup {...input} exclusive style={{ display: "flex" }}>
           {this.lbs()}
