@@ -16,15 +16,7 @@ import RememberMe from "./RememberMe";
 
 import { withNamespaces } from "react-i18next";
 
-class AboutmeForm extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    //console.log("AboutmeForm::shouldComponentUpdate", nextProps, nextState);
-    // fix re-rendering form
-    if (nextProps.valid !== this.props.valid) {
-      return true;
-    }
-    return false;
-  }
+class AboutmeForm extends React.PureComponent {
   render() {
     //console.log("AboutmeForm");
     const { classes, buttonNext, buttonBack, t } = this.props;

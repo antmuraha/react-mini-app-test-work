@@ -16,7 +16,7 @@ import { required, isEmail, isPassword, isConfirmPassword } from "./validate";
 
 import { withNamespaces } from "react-i18next";
 
-class SignupForm extends React.Component {
+class SignupForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { nextDisabled: true };
@@ -41,22 +41,6 @@ class SignupForm extends React.Component {
     );
     */
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    /*
-   //console.log(
-      "SignupForm::shouldComponentUpdate",
-      nextProps,
-      nextState,
-      this.props
-    );
-    */
-    // fix re-rendering form
-    if (nextProps.valid !== this.props.valid) {
-      return true;
-    }
-    return false;
-  }
-
   render() {
     const { classes, buttonNext, buttonBack, t } = this.props;
     const { saveToStorage } = this.context;
